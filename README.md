@@ -28,6 +28,12 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Initial setup
 
+### Add angular material
+
 ng add @angular/material
+
+### Angular material schematics
 `https://material.angular.io/guide/schematics`
+
+#### Angular material schematics - Add navigation
 ng generate @angular/material:navigation <component-name>

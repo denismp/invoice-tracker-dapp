@@ -11,11 +11,26 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { NewClientComponent } from './new-client/new-client.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ClientListComponent } from './client-list/client-list.component';
+import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
+import { UpdateInvoiceComponent } from './update-invoice/update-invoice.component';
+import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainNavComponent
+    MainNavComponent,
+    NewClientComponent,
+    ClientListComponent,
+    NewInvoiceComponent,
+    UpdateInvoiceComponent,
+    InvoiceListComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +41,12 @@ import { MatListModule } from '@angular/material/list';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatInputModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatCardModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

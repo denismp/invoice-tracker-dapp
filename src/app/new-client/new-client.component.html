@@ -8,6 +8,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <input matInput placeholder="Name" formControlName="name">
+            <mat-icon matSuffix>contacts</mat-icon>
             <mat-error *ngIf="addressForm.controls['address'].hasError('required')">
               Name is <strong>required</strong>
             </mat-error>
@@ -18,8 +19,9 @@
         <div class="col">
           <mat-form-field class="full-width">
             <input matInput placeholder="Address" formControlName="address">
+            <mat-icon matSuffix>fiber_pin</mat-icon>
             <mat-error *ngIf="addressForm.controls['address'].hasError('required')">
-              Address is <strong>required</strong>
+              {{getAddressErrorMessage()}}
             </mat-error>
           </mat-form-field>
         </div>

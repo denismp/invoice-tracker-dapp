@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-new-invoice',
@@ -17,10 +18,44 @@ export class NewInvoiceComponent {
     timesheetsentdate: [null, [Validators.required]],
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   onSubmit() {
-    alert('Thanks!');
+    let error: boolean = false;
+    let res: string = "Thank you."
+    let name: string = this.addressForm.get('name').value;
+    let invoicenumber: string = this.addressForm.get('invoicenumber').value;
+    let netterms: string = this.addressForm.get('netterms').value;
+    let numberofhours: string = this.addressForm.get('numberofhours').value;
+    let amountofinvoice: string = this.addressForm.get('amountofinvoice').value;
+    let timesheetendingdate: string = this.addressForm.get('timesheetendingdate').value;
+    let timesheetsentdate: string = this.addressForm.get('timesheetsentdate').value;
+
+    if (name === null) {
+      error = true;
+    }
+    if (invoicenumber === null) {
+      error = true;
+    }
+    if (netterms === null) {
+      error = true;
+    }
+    if (numberofhours === null) {
+      error = true;
+    }
+    if (amountofinvoice === null) {
+      error = true;
+    }
+    if (timesheetendingdate === null) {
+      error = true;
+    }
+    if (timesheetsentdate === null) {
+      error = true;
+    }
+    if (error === true) {
+      res = "The data you entered is invalid."
+    }
+    alert(res);
   }
 
   /**

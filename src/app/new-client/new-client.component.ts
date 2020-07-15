@@ -17,25 +17,16 @@ export class NewClientComponent {
   constructor(private fb: FormBuilder) { }
 
   onSubmit() {
-    let address: string;
-    let name: string;
+    let address: string = this.addressForm.get('address').value;
+    let name: string = this.addressForm.get('name').value;
     let error: boolean = false;
-    if (this.addressForm.get('name').value !== '') {
-      name = this.addressForm.get('name').value;
-    } else {
+    if (name === null) {
       error = true;
     }
-    if (this.addressForm.get('address').value !== '') {
-      address = this.addressForm.get('address').value;
-      if (this.isValidHexString(address) === false ) {
-        error = true;
-      }
-    } else {
+    if (address === null) {
       error = true;
     }
 
-    address = this.addressForm.get('address').value;
-    console.log('length=' + address.length);
     let res: string = "Thank you."
     if (error === true) {
       res = "The data you entered is invalid."

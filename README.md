@@ -37,3 +37,9 @@ ng add @angular/material
 
 #### Angular material schematics - Add navigation
 ng generate @angular/material:navigation <component-name>
+
+#### Angular material schmematics - Add form
+ng generate @angular/material:address-form <component-name>
+
+#### Angular material schematics - Add table
+ng generate @angular/material:table <component-name>

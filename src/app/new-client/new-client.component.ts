@@ -9,7 +9,6 @@ import { FormBuilder, Validators, FormControl } from '@angular/forms';
 export class NewClientComponent {
   addressForm = this.fb.group({
     name: [null, Validators.required],
-    lastName: [null, Validators.required],
     address: [null, [Validators.required, Validators.minLength(42), Validators.maxLength(42), this.isNotHex.bind(this)]]
     //address: [null, [Validators.required, Validators.minLength(42), Validators.maxLength(42)]],
   });

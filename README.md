@@ -32,8 +32,17 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ng add @angular/material
 
+###  Add flex-layout
+npm i @angular/flex-layout@9.0.0-beta.31
+
 ### Angular material schematics
 `https://material.angular.io/guide/schematics`
 
 #### Angular material schematics - Add navigation
 ng generate @angular/material:navigation <component-name>
+
+#### Angular material schmematics - Add form
+ng generate @angular/material:address-form <component-name>
+
+#### Angular material schematics - Add table
+ng generate @angular/material:table <component-name>

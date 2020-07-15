@@ -1,0 +1,33 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'side' : 'side'" [opened]="false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="'/new-client'">Add New Client</a>
+      <a mat-list-item [routerLink]="'/client-list'">Client List</a>
+      <a mat-list-item [routerLink]="'/new-invoice'">New Invoice</a>
+      <a mat-list-item [routerLink]="'/update-invoice'">Update Invoice</a>
+      <a mat-list-item [routerLink]="'/invoice-list'">Invoice Report</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span class="menu-spacer">invoice-dapp</span>
+      <div *ngIf="(isHandset$ | async) == false">
+        <a mat-button [routerLink]="'/new-client'">Add New Client</a>
+        <a mat-button [routerLink]="'/client-list'">Client List</a>
+        <a mat-button [routerLink]="'/new-invoice'">New Invoice</a>
+        <a mat-button [routerLink]="'/update-invoice'">Update Invoice</a>
+        <a mat-button [routerLink]="'/invoice-list'">Invoice Report</a>
+      </div>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false"> -->

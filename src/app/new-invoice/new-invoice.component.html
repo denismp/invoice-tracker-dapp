@@ -53,7 +53,8 @@
           <mat-form-field class="full-width">
             <input matInput placeholder="Amount Of Invoice" formControlName="amountofinvoice">
             <mat-icon matSuffix>attach_money</mat-icon>
-            <mat-error *ngIf="!addressForm.controls['amountofinvoice'].valid && addressForm.get('amountofinvoice').touched">
+            <mat-error
+              *ngIf="!addressForm.controls['amountofinvoice'].valid && addressForm.get('amountofinvoice').touched">
               {{getAmountOfInvoiceErrorMessage()}}
             </mat-error>
           </mat-form-field>
@@ -68,11 +69,14 @@
               <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> -->
             </mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-            <mat-error *ngIf="!addressForm.controls['timesheetendingdate'].valid && addressForm.get('timesheetendingdate').touched">
+            <mat-error
+              *ngIf="!addressForm.controls['timesheetendingdate'].valid && addressForm.get('timesheetendingdate').touched">
               Timesheet Ending date is <strong>required</strong>
             </mat-error>
           </mat-form-field>
         </div>
+      </div>
+      <div class="row">
         <div class="col">
           <mat-form-field class="full-width" appearance="fill">
             <mat-label>Choose a timesheet sent date</mat-label>
@@ -81,7 +85,8 @@
               <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> -->
             </mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
-            <mat-error *ngIf="!addressForm.controls['timesheetsentdate'].valid && addressForm.get('timesheetsentdate').touched">
+            <mat-error
+              *ngIf="!addressForm.controls['timesheetsentdate'].valid && addressForm.get('timesheetsentdate').touched">
               Timesheet Sent date is <strong>required</strong>
             </mat-error>
           </mat-form-field>

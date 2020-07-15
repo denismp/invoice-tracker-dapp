@@ -13,6 +13,8 @@ export class NewInvoiceComponent {
     netterms: [null, [Validators.required, this.isNotNumber.bind(this)]],
     numberofhours: [null, [Validators.required, this.isNotNumber.bind(this)]],
     amountofinvoice: [null, [Validators.required, this.isNotNumber.bind(this)]],
+    timesheetendingdate: [null, [Validators.required]],
+    timesheetsentdate: [null, [Validators.required]],
   });
 
   constructor(private fb: FormBuilder) {}

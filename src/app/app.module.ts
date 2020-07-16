@@ -24,6 +24,9 @@ import { ClientListComponent } from './client-list/client-list.component';
 import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
 import { UpdateInvoiceComponent } from './update-invoice/update-invoice.component';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,10 @@ import { InvoiceListComponent } from './invoice-list/invoice-list.component';
     MatCardModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]

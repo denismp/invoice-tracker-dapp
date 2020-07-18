@@ -49,7 +49,7 @@ export class ClientListComponent implements AfterViewInit, OnInit {
               let myClient: ClientListItem = { clientID: client.clientID, name: client.name};
               console.log('ClientListComponent.loadClients(): myClient=',myClient);
               this.dataSource.addData(myClient);
-              this.dataSource.sort.sortChange.next(name); // THIS MAKES THE PAGE REFRESH.  If it is not here, then the user has to click on the header.  I am sure there is a better way to do this, but I don't know it.
+              this.dataSource.sort.sortChange.next(); // THIS MAKES THE PAGE REFRESH.  If it is not here, then the user has to click on the header.  I am sure there is a better way to do this, but I don't know it.
               console.log('ClientListComponent.loadClient(): data=', this.dataSource.data)
             })
             .catch(err => {

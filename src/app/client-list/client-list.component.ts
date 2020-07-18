@@ -16,6 +16,7 @@ export class ClientListComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<ClientListItem>;
   dataSource: ClientListDataSource;
+
   //public model = new Client();
   // public loadedClients: Client[] = [];
   // public isFetching: boolean = false
@@ -28,13 +29,13 @@ export class ClientListComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     this.dataSource = new ClientListDataSource();
-    this.loadClients();
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
+    this.loadClients();
   }
 
   public loadClients(): void {
@@ -47,15 +48,14 @@ export class ClientListComponent implements AfterViewInit, OnInit {
             .then(client => {
               let myClient: ClientListItem = { clientID: client.clientID, name: client.name};
               console.log('ClientListComponent.loadClients(): myClient=',myClient);
-              this.dataSource.data.push(myClient);
+              this.dataSource.addData(myClient);
+              this.dataSource.sort.sortChange.next(name); // THIS MAKES THE PAGE REFRESH.  If it is not here, then the user has to click on the header.  I am sure there is a better way to do this, but I don't know it.
               console.log('ClientListComponent.loadClient(): data=', this.dataSource.data)
-              // this.loadedClients.push(client);
             })
             .catch(err => {
               console.log('ClientListComponent.loadClients(): getClient() failed with err=', err);
             });
         }
-        // this.dataSource.data = this.loadedClients;
       })
       .catch(err => {
         console.log('ClientListComponent.loadClients(): getClientCount() failed with err=', err);

@@ -2,7 +2,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
-import { Observable, of as observableOf, merge } from 'rxjs';
+import { Observable, of as observableOf, merge, BehaviorSubject } from 'rxjs';
 import { ClientListItem } from './client-list-item.interface';
 
 // TODO: Replace this with your own data model type
@@ -42,12 +42,22 @@ import { ClientListItem } from './client-list-item.interface';
  */
 export class ClientListDataSource extends DataSource<ClientListItem> {
   //data: ClientListItem[] = EXAMPLE_DATA;
-  data: ClientListItem[] = [];
+  dataStream = new BehaviorSubject<ClientListItem[]>([]);
+
+  set data(v: ClientListItem[]) { this.dataStream.next(v); }
+  get data(): ClientListItem[] { return this.dataStream.value; }
+  //data: ClientListItem[] = [];
   paginator: MatPaginator;
   sort: MatSort;
 
   constructor() {
     super();
+  }
+
+  addData(record: ClientListItem) {
+    const copiedData = this.data.slice();
+    copiedData.push(record);
+    this.data = copiedData;
   }
 
   /**

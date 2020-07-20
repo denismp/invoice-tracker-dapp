@@ -1,12 +1,12 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-request-invoices-form',
-  templateUrl: './request-invoices-form.component.html',
-  styleUrls: ['./request-invoices-form.component.scss']
+  selector: 'app-query-request-form',
+  templateUrl: './query-request-form.component.html',
+  styleUrls: ['./query-request-form.component.scss']
 })
-export class RequestInvoicesFormComponent {
+export class QueryRequestFormComponent {
   addressForm = this.fb.group({
     name: [null, Validators.required],
   });

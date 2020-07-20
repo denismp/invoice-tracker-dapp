@@ -21,13 +21,13 @@ import { MatCardModule } from '@angular/material/card';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClientListComponent } from './client-list/client-list.component';
-import { NewInvoiceComponent } from './new-invoice-query/new-invoice.component';
+import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
 import { UpdateInvoiceComponent } from './update-invoice/update-invoice.component';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { RequestInvoicesFormComponent } from './request-invoices-form/request-invoices-form.component';
+import { QueryRequestFormComponent } from './query-request-form/query-request-form.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,8 @@ import { RequestInvoicesFormComponent } from './request-invoices-form/request-in
     UpdateInvoiceComponent,
     InvoiceListComponent,
     ClientListComponent,
-    RequestInvoicesFormComponent
+    QueryRequestFormComponent,
+    QueryRequestFormComponent
   ],
   imports: [
     BrowserModule,

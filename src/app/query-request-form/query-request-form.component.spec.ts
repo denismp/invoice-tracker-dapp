@@ -7,15 +7,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 
-import { RequestInvoicesFormComponent } from './request-invoices-form.component';
+import { QueryRequestFormComponent } from './query-request-form.component';
 
-describe('RequestInvoicesFormComponent', () => {
-  let component: RequestInvoicesFormComponent;
-  let fixture: ComponentFixture<RequestInvoicesFormComponent>;
+describe('QueryRequestFormComponent', () => {
+  let component: QueryRequestFormComponent;
+  let fixture: ComponentFixture<QueryRequestFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RequestInvoicesFormComponent ],
+      declarations: [ QueryRequestFormComponent ],
       imports: [
         NoopAnimationsModule,
         ReactiveFormsModule,
@@ -29,7 +29,7 @@ describe('RequestInvoicesFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RequestInvoicesFormComponent);
+    fixture = TestBed.createComponent(QueryRequestFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Web3Service } from './web3.service';
-import { InvoiceListItem } from '../invoice-list/invoice-list-item.interface';
+import { InvoiceRecordItem } from '../invoice-list/invoice-record-item.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -85,7 +85,7 @@ export class InvoiceService {
   }
 
   // getInvoice(string memory _clientName, uint256 _invoiceNumber
-  public async getInvoice(clientName: string, invoiceNumber: number): Promise<InvoiceListItem> {
+  public async getInvoice(clientName: string, invoiceNumber: number): Promise<InvoiceRecordItem> {
     try {
       console.log('InvoiceService.getInvoice(): clientName=' + clientName);
       console.log('InvoiceService.getInvoice(): invoiceNumber=' + invoiceNumber);

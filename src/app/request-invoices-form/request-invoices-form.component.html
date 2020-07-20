@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <input matInput placeholder="Name" formControlName="name">
+            <input matInput placeholder="Client Name" formControlName="name">
             <mat-icon matSuffix>contacts</mat-icon>
             <mat-error *ngIf="!addressForm.controls['name'].valid && addressForm.get('name').touched">
               Name is <strong>required</strong>

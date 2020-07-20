@@ -22,22 +22,6 @@ export class InvoiceListComponent implements AfterViewInit, OnInit {
   isFetching: boolean = false;
   clientName: string;
 
-  // clientName: string;
-  // invoiceNumber: number;
-  // netTerms: number;
-  // numberHours: number;
-  // amount: string;
-  // timesheetEndDate: number;
-  // rTimesheetEndDate: Date;
-  // sTimesheetEndDate: string;
-  // invoiceSentDate: number;
-  // due30DaysDate: number;
-  // due60DaysDate: number;
-  // due90DaysDate: number;
-  // due120DaysDate: number;
-  // datePmtReceived: number;
-  // rDatePmtReceived: Date;
-  // sDatePmtReceived: string
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = [
     'clientName',
@@ -54,7 +38,7 @@ export class InvoiceListComponent implements AfterViewInit, OnInit {
     'datePmtReceived'
   ];
 
-  constructor(private invoiceService: InvoiceService) {}
+  constructor(private invoiceService: InvoiceService) { }
 
   ngOnInit() {
     this.dataSource = new InvoiceListDataSource();
@@ -70,13 +54,14 @@ export class InvoiceListComponent implements AfterViewInit, OnInit {
     this.submitted = false;
     // this.model = new Invoice();
     // this.loadedInvoices = [];
+    this.dataSource.data = [];
   }
 
   nameEventHandler($event: any) {
     console.log('InvoiceListComponent.nameEventHandler(): called...');
     this.submitted = true;
     this.clientName = $event;
-    console.log('InvoiceListComponent.nameEventHandler(): clientName=',this.clientName);
+    console.log('InvoiceListComponent.nameEventHandler(): clientName=', this.clientName);
     this.submitted = true;
     // Here we need to call the solidity contract to get the list of invoice numbers and then retrieve the invoices one at a time.
     this.isFetching = true;
@@ -96,39 +81,19 @@ export class InvoiceListComponent implements AfterViewInit, OnInit {
             this.invoiceService.getInvoice(clientName, _invNum)
               .then(invoice => {
                 console.log('InvoiceListComponent.nameEventHandler(): invoice: ', invoice);
-                let myInvoice: InvoiceListItem = {
-                  clientName: this.clientName,
-                  invoiceNumber: invoice.invoiceNumber,
-                  netTerms: invoice.netTerms,
-                  numberHours: invoice.numberHours,
-                  amount: invoice.amount,
-                  timesheetEndDate: invoice.timesheetEndDate,
-                  rTimesheetEndDate: null,
-                  sTimesheetEndDate: '',
-                  invoiceSentDate: invoice.invoiceSentDate,
-                  due30DaysDate: invoice.due30DaysDate,
-                  due60DaysDate: invoice.due60DaysDate,
-                  due90DaysDate: invoice.due90DaysDate,
-                  due120DaysDate: invoice.due120DaysDate,
-                  datePmtReceived: invoice.datePmtReceived,
-                  rDatePmtReceived: null,
-                  sDatePmtReceived: ''
-                };
-                let sInvoice: InvoiceRecordItem = {
-                  clientName: this.clientName,
-                  invoiceNumber: myInvoice.invoiceNumber,
-                  netTerms: myInvoice.netTerms,
-                  numberHours: myInvoice.numberHours,
-                  amount: myInvoice.amount,
-                  timesheetEndDate: this.getStdDateString(myInvoice.timesheetEndDate.toString()),
-                  invoiceSentDate: this.getStdDateString(myInvoice.invoiceSentDate.toString()),
-                  due30DaysDate: this.getStdDateString(myInvoice.due30DaysDate.toString()),
-                  due60DaysDate: this.getStdDateString(myInvoice.due60DaysDate.toString()),
-                  due90DaysDate: this.getStdDateString(myInvoice.due90DaysDate.toString()),
-                  due120DaysDate: this.getStdDateString(myInvoice.due120DaysDate.toString()),
-                  datePmtReceived: this.getStdDateString(myInvoice.datePmtReceived.toString())
-                };
-                console.log('InvoiceListComponent.nameEventHandler(): myInvoice=', sInvoice);
+                invoice.clientName = this.clientName;
+                invoice.invoiceNumber = invoice.invoiceNumber;
+                invoice.netTerms = invoice.netTerms;
+                invoice.numberHours = invoice.numberHours;
+                invoice.amount = invoice.amount;
+                invoice.timesheetEndDate = this.getStdDateString(invoice.timesheetEndDate.toString());
+                invoice.invoiceSentDate = this.getStdDateString(invoice.invoiceSentDate.toString());
+                invoice.due30DaysDate = this.getStdDateString(invoice.due30DaysDate.toString());
+                invoice.due60DaysDate = this.getStdDateString(invoice.due60DaysDate.toString());
+                invoice.due90DaysDate = this.getStdDateString(invoice.due90DaysDate.toString());
+                invoice.due120DaysDate = this.getStdDateString(invoice.due120DaysDate.toString());
+                invoice.datePmtReceived = this.getStdDateString(invoice.datePmtReceived.toString())
+                console.log('InvoiceListComponent.nameEventHandler(): invoice=', invoice);
                 // console.log('Invoice[' + i + ']datePmtReceived=' + invoice.datePmtReceived);
                 // console.log('Invoice[' + i + ']due120DaysDate=' + invoice.due120DaysDate);
                 // console.log('Invoice[' + i + ']due30DaysDate=' + invoice.due30DaysDate);
@@ -136,7 +101,7 @@ export class InvoiceListComponent implements AfterViewInit, OnInit {
 
                 //this.loadedInvoices.push(invoice);
                 invoice.clientName = this.clientName;
-                this.dataSource.addData(sInvoice);
+                this.dataSource.addData(invoice);
                 this.dataSource.sort.sortChange.next();
               })
               .catch(err => {

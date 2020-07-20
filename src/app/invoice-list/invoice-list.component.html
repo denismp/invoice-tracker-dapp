@@ -78,9 +78,13 @@
     <mat-paginator #paginator [length]="dataSource?.data.length" [pageIndex]="0" [pageSize]="10"
       [pageSizeOptions]="[10, 20, 30, 250]">
     </mat-paginator>
-    <mat-divider></mat-divider>
-    <section>
-      <button mat-raised-button color="primary" (click)="newInvoice()">New</button>
-    </section>
+    <!-- <mat-divider></mat-divider> -->
+    <!-- <section> -->
+      <mat-card class="shipping-card">
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="newInvoice()">New</button>
+        </mat-card-actions>
+      </mat-card>
+    <!-- </section> -->
   </div>
 </div>

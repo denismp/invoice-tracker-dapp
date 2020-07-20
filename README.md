@@ -46,3 +46,6 @@ ng generate @angular/material:address-form <component-name>
 
 #### Angular material schematics - Add table
 ng generate @angular/material:table <component-name>
+
+### Solidity setup
+truffle init

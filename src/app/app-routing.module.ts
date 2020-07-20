@@ -8,7 +8,7 @@ import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 
 
 const routes: Routes = [
-  { path: 'new-client', component: NewClientComponent},
+  { path: 'new-client', component: NewClientComponent },
   { path: 'client-list', component: ClientListComponent },
   { path: 'new-invoice', component: NewInvoiceComponent },
   { path: 'update-invoice', component: UpdateInvoiceComponent },

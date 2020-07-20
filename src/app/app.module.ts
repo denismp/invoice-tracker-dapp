@@ -27,6 +27,7 @@ import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { QueryRequestFormComponent } from './query-request-form/query-request-form.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,9 @@ import { MatSortModule } from '@angular/material/sort';
     NewInvoiceComponent,
     UpdateInvoiceComponent,
     InvoiceListComponent,
-    ClientListComponent
+    ClientListComponent,
+    QueryRequestFormComponent,
+    QueryRequestFormComponent
   ],
   imports: [
     BrowserModule,

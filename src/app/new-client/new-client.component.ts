@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ClientService } from '../services/client.service';
+import { Web3Service } from '../services/web3.service';
 
 @Component({
   selector: 'app-new-client',
@@ -14,7 +15,9 @@ export class NewClientComponent {
     //address: [null, [Validators.required, Validators.minLength(42), Validators.maxLength(42)]],
   });
 
-  constructor(private fb: FormBuilder, private clientService: ClientService) { }
+  submitting: boolean = false;
+
+  constructor(private fb: FormBuilder, private clientService: ClientService, private web3Service: Web3Service) { }
 
   onSubmit() {
     let address: string = this.addressForm.get('address').value;
@@ -32,13 +35,20 @@ export class NewClientComponent {
       res = "The data you entered is invalid."
       alert(res);
     } else {
+      this.submitting = true;
       this.clientService.createClient(address, name)
-        .then( res => {
-          console.log('NewClientComponent.onSubmit(): res: ', res);
-          let myData: string = "transactionHash=" + res.transactionHash + " blockHash=" + res.blockHash + " blockNumber=" + res.blockNumber;
-          alert('Successfully added '+ name + " " + myData);
+        .then(res => {
+          this.submitting = false;
+          if (this.clientService.success === true) {
+            console.log('NewClientComponent.onSubmit(): res: ', res);
+            let myData: string = "transactionHash=" + res.transactionHash + " blockHash=" + res.blockHash + " blockNumber=" + res.blockNumber;
+            alert('Successfully added ' + name + " " + myData);
+          } else {
+            alert('Add of ' + name + ' failed');
+          }
         })
         .catch(err => {
+          this.submitting = false;
           console.log('NewClientComponent.onSubmit(): err: ', err);
           alert('Submit failed.');
         });

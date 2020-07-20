@@ -22,6 +22,7 @@ export class Web3Service {
   private isWeb3Ready: BehaviorSubject<boolean>;
   public isWeb3Ready$: Observable<boolean>
   public owner: string = '';
+  public success: boolean = false;
 
   constructor() {
     this.isWeb3Ready = new BehaviorSubject(false);
@@ -106,12 +107,14 @@ export class Web3Service {
 
   private initEventSubscriptions(): void {
     this.contract.events.allEvents({ fromBlock: 'latest' }, async (error, event) => {
-      console.log('event=', event);
-      console.log('error=', error);
       if (!error) {
         //alert(JSON.stringify(event));
+        this.success = true;
+        console.log('event=', event);
       } else {
-        alert(JSON.stringify(error))
+        this.success = false;
+        console.log('error=', error);
+        //alert(JSON.stringify(error))
       }
       // if (event.returnValues._deliveryHash) {
       //   const deliveryHash = event.returnValues._deliveryHash;

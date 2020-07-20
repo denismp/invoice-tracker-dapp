@@ -3,10 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map, retry } from 'rxjs/operators';
 import { Observable, of as observableOf, merge, BehaviorSubject } from 'rxjs';
-import { InvoiceListItem } from './invoice-list-item.interface';
+import { InvoiceRecordItem } from './invoice-record-item.interface';
 
 // TODO: Replace this with your own data model type
-// export interface InvoiceListItem {
+// export interface InvoiceRecordItem {
 //   inv_id: number;
 //   net_terms: number;
 //   hours: number;
@@ -21,7 +21,7 @@ import { InvoiceListItem } from './invoice-list-item.interface';
 // }
 
 // // TODO: replace this with real data from your application
-// const EXAMPLE_DATA: InvoiceListItem[] = [
+// const EXAMPLE_DATA: InvoiceRecordItem[] = [
 //   {inv_id: 1, net_terms: 30, hours: 80, amount: 8000, end_date: 'Sat Jun 13 2020', sent_date: 'Sat Jun 13 2020', due_30: 'Mon Jul 13 2020', due_60: 'Mon Jul 13 2020', due_90: 'Thu Dec 10 2020', due_120: 'Fri Apr 09 2021', pmt_date: ''},
 //   {inv_id: 2, net_terms: 30, hours: 80, amount: 8000, end_date: 'Sat Jun 13 2020', sent_date: 'Sat Jun 13 2020', due_30: 'Mon Jul 13 2020', due_60: 'Mon Jul 13 2020', due_90: 'Thu Dec 10 2020', due_120: 'Fri Apr 09 2021', pmt_date: 'Thu Dec 10 2020'},
 //   {inv_id: 3, net_terms: 30, hours: 80, amount: 8000, end_date: 'Sat Jun 13 2020', sent_date: 'Sat Jun 13 2020', due_30: 'Mon Jul 13 2020', due_60: 'Mon Jul 13 2020', due_90: 'Thu Dec 10 2020', due_120: 'Fri Apr 09 2021', pmt_date: ''},
@@ -58,12 +58,12 @@ import { InvoiceListItem } from './invoice-list-item.interface';
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class InvoiceListDataSource extends DataSource<InvoiceListItem> {
-  //data: InvoiceListItem[] = EXAMPLE_DATA;
-  dataStream = new BehaviorSubject<InvoiceListItem[]>([]);
+export class InvoiceListDataSource extends DataSource<InvoiceRecordItem> {
+  //data: InvoiceRecordItem[] = EXAMPLE_DATA;
+  dataStream = new BehaviorSubject<InvoiceRecordItem[]>([]);
 
-  set data(v: InvoiceListItem[]) { this.dataStream.next(v); }
-  get data(): InvoiceListItem[] { return this.dataStream.value; }
+  set data(v: InvoiceRecordItem[]) { this.dataStream.next(v); }
+  get data(): InvoiceRecordItem[] { return this.dataStream.value; }
 
   paginator: MatPaginator;
   sort: MatSort;
@@ -72,7 +72,7 @@ export class InvoiceListDataSource extends DataSource<InvoiceListItem> {
     super();
   }
 
-  addData(record: InvoiceListItem) {
+  addData(record: InvoiceRecordItem) {
     const copiedData = this.data.slice();
     copiedData.push(record);
     this.data = copiedData;
@@ -83,7 +83,7 @@ export class InvoiceListDataSource extends DataSource<InvoiceListItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<InvoiceListItem[]> {
+  connect(): Observable<InvoiceRecordItem[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -107,7 +107,7 @@ export class InvoiceListDataSource extends DataSource<InvoiceListItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: InvoiceListItem[]) {
+  private getPagedData(data: InvoiceRecordItem[]) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -116,7 +116,7 @@ export class InvoiceListDataSource extends DataSource<InvoiceListItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: InvoiceListItem[]) {
+  private getSortedData(data: InvoiceRecordItem[]) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }

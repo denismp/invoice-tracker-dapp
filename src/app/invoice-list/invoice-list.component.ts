@@ -5,6 +5,7 @@ import { MatTable } from '@angular/material/table';
 import { InvoiceListDataSource } from './invoice-list-datasource';
 import { InvoiceService } from '../services/invoice.service';
 import { InvoiceListItem } from './invoice-list-item.interface';
+import { InvoiceRecordItem } from './invoice-record-item.interface';
 
 @Component({
   selector: 'app-invoice-list',
@@ -14,7 +15,7 @@ import { InvoiceListItem } from './invoice-list-item.interface';
 export class InvoiceListComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatTable) table: MatTable<InvoiceListItem>;
+  @ViewChild(MatTable) table: MatTable<InvoiceRecordItem>;
   dataSource: InvoiceListDataSource;
 
   submitted: boolean = false;
@@ -113,7 +114,21 @@ export class InvoiceListComponent implements AfterViewInit, OnInit {
                   rDatePmtReceived: null,
                   sDatePmtReceived: ''
                 };
-                console.log('InvoiceListComponent.nameEventHandler(): myInvoice=', myInvoice);
+                let sInvoice: InvoiceRecordItem = {
+                  clientName: this.clientName,
+                  invoiceNumber: myInvoice.invoiceNumber,
+                  netTerms: myInvoice.netTerms,
+                  numberHours: myInvoice.numberHours,
+                  amount: myInvoice.amount,
+                  timesheetEndDate: this.getStdDateString(myInvoice.timesheetEndDate.toString()),
+                  invoiceSentDate: this.getStdDateString(myInvoice.invoiceSentDate.toString()),
+                  due30DaysDate: this.getStdDateString(myInvoice.due30DaysDate.toString()),
+                  due60DaysDate: this.getStdDateString(myInvoice.due60DaysDate.toString()),
+                  due90DaysDate: this.getStdDateString(myInvoice.due90DaysDate.toString()),
+                  due120DaysDate: this.getStdDateString(myInvoice.due120DaysDate.toString()),
+                  datePmtReceived: this.getStdDateString(myInvoice.datePmtReceived.toString())
+                };
+                console.log('InvoiceListComponent.nameEventHandler(): myInvoice=', sInvoice);
                 // console.log('Invoice[' + i + ']datePmtReceived=' + invoice.datePmtReceived);
                 // console.log('Invoice[' + i + ']due120DaysDate=' + invoice.due120DaysDate);
                 // console.log('Invoice[' + i + ']due30DaysDate=' + invoice.due30DaysDate);
@@ -121,7 +136,7 @@ export class InvoiceListComponent implements AfterViewInit, OnInit {
 
                 //this.loadedInvoices.push(invoice);
                 invoice.clientName = this.clientName;
-                this.dataSource.addData(invoice);
+                this.dataSource.addData(sInvoice);
                 this.dataSource.sort.sortChange.next();
               })
               .catch(err => {

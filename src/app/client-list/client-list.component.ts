@@ -46,9 +46,9 @@ export class ClientListComponent implements AfterViewInit, OnInit {
           console.log('ClientListComponent.loadClients(): count=',count);
           this.clientService.getClient(i)
             .then(client => {
-              let myClient: ClientListItem = { clientID: client.clientID, name: client.name};
-              console.log('ClientListComponent.loadClients(): myClient=',myClient);
-              this.dataSource.addData(myClient);
+              //let myClient: ClientListItem = { clientID: client.clientID, name: client.name};
+              console.log('ClientListComponent.loadClients(): client=',client);
+              this.dataSource.addData(client);
               this.dataSource.sort.sortChange.next(); // THIS MAKES THE PAGE REFRESH.  If it is not here, then the user has to click on the header.  I am sure there is a better way to do this, but I don't know it.
               console.log('ClientListComponent.loadClient(): data=', this.dataSource.data)
             })

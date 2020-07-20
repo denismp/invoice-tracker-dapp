@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ThrowStmt } from '@angular/compiler';
+import { InvoiceService } from '../services/invoice.service';
 
 @Component({
   selector: 'app-new-invoice',
@@ -17,8 +18,9 @@ export class NewInvoiceComponent {
     timesheetendingdate: [null, [Validators.required]],
     timesheetsentdate: [null, [Validators.required]],
   });
+  submitted: boolean = false;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private invoiceService: InvoiceService) { }
 
   onSubmit() {
     let error: boolean = false;
@@ -56,6 +58,12 @@ export class NewInvoiceComponent {
       res = "The data you entered is invalid."
     }
     alert(res);
+
+    if (!error) {
+      this.submitted = true;
+      // this.clientService.createClient()
+    }
+
   }
 
   /**

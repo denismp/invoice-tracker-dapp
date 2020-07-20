@@ -138,4 +138,13 @@ export class InvoiceListComponent implements AfterViewInit, OnInit {
       });
   }
 
+  public getStdDateString(_numSeconds: string): string {
+    //console.log('getStdDateString(): _numSeconds=',_numSeconds);
+    if (parseInt(_numSeconds) === 0) {
+      return "";
+    }
+    let rVal: string = new Date(parseInt(_numSeconds) * 1000).toDateString();
+    return rVal;
+  }
+
 }

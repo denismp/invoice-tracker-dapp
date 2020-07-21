@@ -93,7 +93,7 @@ export class NewInvoiceComponent {
         })
         .catch(err => {
           this.submitting = false;
-          console.log('NewClientComponent.onSubmit(): err: ', err);
+          console.log('NewInvoiceComponent.onSubmit(): err: ', err);
           alert('Submit failed.');
         });
     }

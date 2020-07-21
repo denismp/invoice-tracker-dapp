@@ -65,8 +65,10 @@ export class InvoiceService {
       console.log('datePmtReceived=' + datePmtReceived);
       //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
       let owner: string = this.web3Service.owner;
+      this.success = true;
       return await this.web3Service.contract.methods.updateInvoice(clientName, invoiceNumber, datePmtReceived).send({ from: owner, gas:3000000 });
     } catch (err) {
+      this.success = false;
       console.log('InvoiceService.updateInvoice(): failed:', err)
       alert("InvoiceService.updateInvoice(): failed:" + err);
     }

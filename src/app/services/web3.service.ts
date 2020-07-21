@@ -22,6 +22,7 @@ export class Web3Service {
   private isWeb3Ready: BehaviorSubject<boolean>;
   public isWeb3Ready$: Observable<boolean>
   public owner: string = '';
+  public success: boolean = false;
 
   constructor() {
     this.isWeb3Ready = new BehaviorSubject(false);
@@ -81,7 +82,7 @@ export class Web3Service {
       //     onTimeout: false
       //   }
       // };
-      let contractAddress = "0x6a5Dd5c1A6cA05B91f1bdc35b14f1ef3E994f68c";
+      let contractAddress = "0x3d1a6D30AF22AdC5f71C5A172E1919f67062fBc8";
       //let contractAddress = "0x4fa7c2933A553b9346a44ebd9DF6962747a606d4"; //ropsten
       // Hack to provide backwards compatibility for Truffle, which uses web3js 0.20.x
       //Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
@@ -106,12 +107,14 @@ export class Web3Service {
 
   private initEventSubscriptions(): void {
     this.contract.events.allEvents({ fromBlock: 'latest' }, async (error, event) => {
-      console.log('event=', event);
-      console.log('error=', error);
       if (!error) {
-        alert(JSON.stringify(event));
+        //alert(JSON.stringify(event));
+        this.success = true;
+        console.log('event=', event);
       } else {
-        alert(JSON.stringify(error))
+        this.success = false;
+        console.log('error=', error);
+        //alert(JSON.stringify(error))
       }
       // if (event.returnValues._deliveryHash) {
       //   const deliveryHash = event.returnValues._deliveryHash;

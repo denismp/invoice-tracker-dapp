@@ -30,17 +30,17 @@ export class NewClientComponent {
       error = true;
     }
 
-    let res: string = "Thank you."
+    let rString: string = "Thank you."
     if (error === true) {
-      res = "The data you entered is invalid."
-      alert(res);
+      rString = "The data you entered is invalid."
+      alert(rString);
     } else {
       this.submitting = true;
       this.clientService.createClient(address, name)
         .then(res => {
           this.submitting = false;
+          console.log('NewClientComponent.onSubmit(): res: ', res);
           if (this.clientService.success === true) {
-            console.log('NewClientComponent.onSubmit(): res: ', res);
             let myData: string = "transactionHash=" + res.transactionHash + " blockHash=" + res.blockHash + " blockNumber=" + res.blockNumber;
             alert('Successfully added ' + name + " " + myData);
           } else {

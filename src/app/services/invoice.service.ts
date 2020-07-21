@@ -6,6 +6,7 @@ import { InvoiceRecordItem } from '../invoice-list/invoice-record-item.interface
   providedIn: 'root'
 })
 export class InvoiceService {
+  success: boolean = false;
   constructor(private web3Service: Web3Service) { }
 
   public async addInvoice(
@@ -36,6 +37,7 @@ export class InvoiceService {
       console.log('due120DaysDate=' + due120DaysDate);
       //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
       let owner: string = this.web3Service.owner;
+      this.success = true;
       return await this.web3Service.contract.methods.addInvoice(
         clientName,
         invoiceNumber,
@@ -50,6 +52,7 @@ export class InvoiceService {
         due120DaysDate
       ).send({ from: owner, gas:3000000 });
     } catch (err) {
+      this.success = false;
       console.log('InvoiceService.addInvoice(): failed:', err);
       alert("InvoiceService.addInvoice(): failed:" + err);
     }

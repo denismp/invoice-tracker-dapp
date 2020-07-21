@@ -4,6 +4,7 @@
       <mat-card-title>New Invoice Information</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+      <mat-spinner *ngIf="submitting"></mat-spinner>
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">

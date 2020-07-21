@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ThrowStmt } from '@angular/compiler';
 import { InvoiceService } from '../services/invoice.service';
+import { Web3Service } from '../services/web3.service';
 
 @Component({
   selector: 'app-new-invoice',
@@ -18,13 +19,13 @@ export class NewInvoiceComponent {
     timesheetendingdate: [null, [Validators.required]],
     timesheetsentdate: [null, [Validators.required]],
   });
-  submitted: boolean = false;
+  submitting: boolean = false;
 
-  constructor(private fb: FormBuilder, private invoiceService: InvoiceService) { }
+  constructor(private fb: FormBuilder, private invoiceService: InvoiceService, private web3Service: Web3Service) { }
 
   onSubmit() {
     let error: boolean = false;
-    let res: string = "Thank you."
+    let rString: string = "Thank you."
     let name: string = this.addressForm.get('name').value;
     let invoicenumber: string = this.addressForm.get('invoicenumber').value;
     let netterms: string = this.addressForm.get('netterms').value;
@@ -55,15 +56,54 @@ export class NewInvoiceComponent {
       error = true;
     }
     if (error === true) {
-      res = "The data you entered is invalid."
+      rString = "The data you entered is invalid."
+      alert(rString);
     }
-    alert(res);
 
-    if (!error) {
-      this.submitted = true;
+    if (error === true) {
+      this.submitting = false;
       // this.clientService.createClient()
+    } else {
+      this.submitting = true;
+      console.log('NewInvoiceComponent.onSubmit(): timesheetsentdate=', timesheetsentdate);
+      console.log('NewInvoiceComponent.onSubmit(): conversions of timesheetsentdate in millseconds=', Date.parse(timesheetsentdate));
+      console.log('NewInvoiceComponent.onSubmit(): conversions of timesheetsentdate in seconds(Unix Epoch)=', Math.round(Date.parse(timesheetsentdate)/1000));
+      this.invoiceService.addInvoice(
+        name,
+        parseInt(invoicenumber),
+        parseInt(netterms),
+        parseInt(numberofhours),
+        amountofinvoice,
+        Math.round(Date.parse(timesheetendingdate)/1000),
+        Math.round(Date.parse(timesheetsentdate)/1000),
+        this.getDateDays(Date.parse(timesheetsentdate), 30),
+        this.getDateDays(Date.parse(timesheetsentdate), 60),
+        this.getDateDays(Date.parse(timesheetsentdate), 90),
+        this.getDateDays(Date.parse(timesheetsentdate), 120)
+        )
+        .then(res => {
+          this.submitting = false;
+          console.log('NewInvoiceComponent.onSubmit(): res=', res);
+          if (this.invoiceService.success === true) {
+            let myData: string = "transactionHash=" + res.transactionHash + " blockHash=" + res.blockHash + " blockNumber=" + res.blockNumber;
+            alert('Successfully added ' + name + " " + myData);
+          } else {
+            alert('Add of ' + name + ' failed');
+          }
+        })
+        .catch(err => {
+          this.submitting = false;
+          console.log('NewClientComponent.onSubmit(): err: ', err);
+          alert('Submit failed.');
+        });
     }
 
+  }
+
+  private getDateDays( invoiceSentTime: number, numDays: number): number {
+    const ldate: Date = new Date(Math.round(invoiceSentTime/1000)); // convert to the Unix Epoch in seconds for the solidity contract.
+    let rval = ldate.setDate(ldate.getDate() + numDays);
+    return rval;
   }
 
   /**

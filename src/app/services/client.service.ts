@@ -23,7 +23,7 @@ export class ClientService {
      } catch (err) {
        this.success = false;
        console.log('ClientServiceService.createClient(): failed:', err);
-      //  alert('ClientServiceService.createClient(): failed:' + err);
+       alert('ClientServiceService.createClient(): failed:' + err);
        return err;
      }
    }

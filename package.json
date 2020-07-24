@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~9.1.0",
     "@angular/router": "~9.1.0",
     "@truffle/hdwallet-provider": "^1.0.38",
+    "express": "^4.17.1",
     "material-design-icons": "^3.0.1",
     "rxjs": "~6.5.4",
     "truffle": "^5.1.34",

@@ -23,6 +23,8 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
+const INFURA_KEY = '73b7b47e483f4ddca6ba5658797f9da2';
+const MNEMONIC = 'kit puzzle frown perfect clog erupt turtle swap bless record master pyramid';
 
 module.exports = {
   /**
@@ -53,9 +55,10 @@ module.exports = {
       network_id: "*",       // Any network (default: none)
     },
     ropsten: {
-      provider: function () {
-        return new HDWalletProvider('kit puzzle frown perfect clog erupt turtle swap bless record master pyramid', "https://ropsten.infura.io/v3/73b7b47e483f4ddca6ba5658797f9da2")
-      },
+      // provider: function () {
+      //   return new HDWalletProvider('kit puzzle frown perfect clog erupt turtle swap bless record master pyramid', "https://ropsten.infura.io/v3/73b7b47e483f4ddca6ba5658797f9da2")
+      // },
+      provider: () => new HDWalletProvider(MNEMONIC, `https://ropsten.infura.io/v3/${INFURA_KEY}`),
       network_id: 3,
       gas: 5500000, // Ropsten has a lower block limit than mainnet
       confirmations: 0, // # of confs to wait between deployments. (default: 0)

@@ -30,6 +30,13 @@ contract InvoiceTracker is Owned {
         bool flag;
     }
 
+    /// @dev User struct
+    struct User {
+      bytes32 name;
+      bytes32 ePwd;
+      bool flag;
+    }
+
     /// @dev map the name of the client to the Client struct
     mapping(string => Client) private clientMap;
 

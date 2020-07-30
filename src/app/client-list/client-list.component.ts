@@ -5,6 +5,7 @@ import { MatTable } from '@angular/material/table';
 import { ClientListDataSource } from './client-list-datasource';
 import { ClientService } from '../services/client.service';
 import { ClientListItem } from './client-list-item.interface';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-client-list',
@@ -16,12 +17,13 @@ export class ClientListComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<ClientListItem>;
   dataSource: ClientListDataSource;
+  userAddress: string;
 
   //public model = new Client();
   // public loadedClients: Client[] = [];
   // public isFetching: boolean = false
 
-  constructor(private clientService: ClientService) {}
+  constructor(private userService: UserService, private clientService: ClientService) {}
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   //displayedColumns = ['id', 'name'];
@@ -29,22 +31,23 @@ export class ClientListComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     this.dataSource = new ClientListDataSource();
+    this.userAddress = this.userService.userAddress;
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
-    this.loadClients();
+    this.loadClients(this.userAddress);
   }
 
-  public loadClients(): void {
+  public loadClients(userAddress: string): void {
     // this.loadedClients = [];
-    this.clientService.getClientCount()
+    this.clientService.getClientCount(userAddress)
       .then(count => {
         for (let i = 0; i < count; i++) {
           console.log('ClientListComponent.loadClients(): count=',count);
-          this.clientService.getClient(i)
+          this.clientService.getClientByIndex(userAddress, i)
             .then(client => {
               //let myClient: ClientListItem = { clientID: client.clientID, name: client.name};
               console.log('ClientListComponent.loadClients(): client=',client);

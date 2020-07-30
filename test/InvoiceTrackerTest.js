@@ -87,6 +87,24 @@ contract("InvoiceTracker", async accounts => {
     assert.equal(result.name, 'test');
   });
 
+  it('javascript test get user', async () => {
+    console.log("GET USER");
+    let result = await invoiceTracker.getUser("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3");
+    //truffleAssert.prettyPrintEmittedEvents(result);
+    console.log('result=',result);
+    //truffleAssert.prettyPrintEmittedEvents(result);
+    assert.equal(result.name, 'user1');
+  });
+
+  it('javascript test get user name', async () => {
+    console.log("GET USER NAME");
+    let result = await invoiceTracker.getUserName("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3");
+    //truffleAssert.prettyPrintEmittedEvents(result);
+    console.log('result=',result);
+    //truffleAssert.prettyPrintEmittedEvents(result);
+    assert.equal(result, 'user1');
+  });
+
   async function addInvoice(_invoiceNumber) {
     const now = Math.floor((new Date()).getTime() / 1000);
     console.log("ADD INVOICE");

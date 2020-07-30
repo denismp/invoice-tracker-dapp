@@ -152,6 +152,24 @@ contract InvoiceTracker is Owned {
     }
 
     /// @author Denis M. Putnam
+    /// @notice get the client by index number.
+    /// @param _index index of client name
+    /// @dev no further info
+    /// @return name
+    /// @return clientID
+    function getClientByIndex(address _userAddress, uint256 _index)
+        public
+        view
+        returns (string memory name, address clientID)
+    {
+        Client memory _client = usersToClientsMap[_userAddress][_index];
+        string memory lname = _client.name;
+        address lclientID = _client.clientID;
+        return (lname, lclientID);
+    }
+
+
+    /// @author Denis M. Putnam
     /// @notice Get the user name
     /// @param _userAddress user address
     /// @dev Get the client for the given name.
@@ -159,6 +177,17 @@ contract InvoiceTracker is Owned {
     function getUserName(address _userAddress) public view returns (string memory name) {
       return usersMap[_userAddress].name;
     }
+
+    /// @author Denis M. Putnam
+    /// @notice Get the user name and epassword
+    /// @param _userAddress user address
+    /// @dev Get the client for the given name.
+    /// @return name
+    /// @return ePwd
+    function getUser(address _userAddress) public view returns (string memory name, bytes32 ePwd) {
+      return (usersMap[_userAddress].name, usersMap[_userAddress].ePwd);
+    }
+
 
     // /// @author Denis M. Putnam
     // /// @notice get the client by index number.

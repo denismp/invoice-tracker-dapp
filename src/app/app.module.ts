@@ -29,6 +29,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { QueryRequestFormComponent } from './query-request-form/query-request-form.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { QueryRequestFormComponent } from './query-request-form/query-request-fo
     InvoiceListComponent,
     ClientListComponent,
     QueryRequestFormComponent,
-    QueryRequestFormComponent
+    QueryRequestFormComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

@@ -32,7 +32,7 @@ contract InvoiceTracker is Owned {
 
     /// @dev User struct
     struct User {
-      bytes32 name;
+      string name;
       bytes32 ePwd;
       bool flag;
     }
@@ -68,7 +68,7 @@ contract InvoiceTracker is Owned {
     event addClientEvent(address _userAddress, address _clientID, string _name);
     event duplicateInvoiceEvent(string _clientName, uint256 _invoiceNumber);
     event duplicateClientEvent(address _userAddress, string _clientID);
-    event addUserEvent(address payable _address, bytes32 _name, bytes32 _pwd);
+    event addUserEvent(address payable _address, string _name, string _pwd);
 
     /// @author Denis M. Putnam
     /// @notice Check for no client.
@@ -103,7 +103,7 @@ contract InvoiceTracker is Owned {
     /// @param _name user name
     /// @param _pwd unencrypted password
     /// @dev no other details.
-    function addUser(address payable _address, bytes32 _name, bytes32 _pwd) public noDupUser(_address) {
+    function addUser(address payable _address, string memory _name, string memory _pwd) public noDupUser(_address) {
       bytes32 epwd = keccak256(abi.encodePacked(_pwd));
       usersMap[_address] = User(_name,epwd,true);
       emit addUserEvent(_address, _name, _pwd);
@@ -156,7 +156,7 @@ contract InvoiceTracker is Owned {
     /// @param _userAddress user address
     /// @dev Get the client for the given name.
     /// @return name
-    function getUserName(address _userAddress) public view returns (bytes32 name) {
+    function getUserName(address _userAddress) public view returns (string memory name) {
       return usersMap[_userAddress].name;
     }
 
@@ -241,7 +241,7 @@ contract InvoiceTracker is Owned {
     modifier userOnly(address _userAddress, string  memory _clientName) {
       address _clientID = clientMap[_clientName].clientID;
       require(
-        (userClientIDMap[_userAddress] == _clientID) == false,
+        userClientIDMap[_userAddress] == _clientID,
        "User and client are not related");
       _;
     }
@@ -567,7 +567,6 @@ contract InvoiceTracker is Owned {
     /// @return netTerms
     /// @return numberHours
     /// @return amount
-    /// @return dates
     function getInvoice(address _userAddress, string memory _clientName, uint256 _invoiceNumber)
         public
         view
@@ -576,15 +575,7 @@ contract InvoiceTracker is Owned {
             uint256 invoiceNumber,
             uint256 netTerms,
             uint256 numberHours,
-            string memory amount,
-            uint256[] memory dates
-            // uint256 timesheetEndDate,
-            // uint256 invoiceSentDate,
-            // uint256 due30DaysDate,
-            // uint256 due60DaysDate,
-            // uint256 due90DaysDate,
-            // uint256 due120DaysDate,
-            // uint256 datePmtReceived
+            string memory amount
         )
     {
         int256 _index = findInvoiceIndex(_userAddress, _clientName, _invoiceNumber);
@@ -592,23 +583,58 @@ contract InvoiceTracker is Owned {
             Invoice memory lInvoice = clientNameInvoiceMap[_clientName][uint256(
                 _index
             )];
-            invoiceNumber = lInvoice.invoiceNumber;
-            netTerms = lInvoice.netTerms;
-            numberHours = lInvoice.numberHours;
-            amount = lInvoice.amount;
-            dates[0] = lInvoice.timesheetEndDate;
-            dates[1] = lInvoice.invoiceSentDate;
-            dates[2] = lInvoice.due30DaysDate;
-            dates[3] = lInvoice.due60DaysDate;
-            dates[4] = lInvoice.due90DaysDate;
-            dates[5] = lInvoice.due120DaysDate;
-            dates[6] = lInvoice.datePmtReceived;
             return (
-                invoiceNumber,
+                lInvoice.invoiceNumber,
                 lInvoice.netTerms,
                 lInvoice.numberHours,
-                lInvoice.amount,
-                dates
+                lInvoice.amount
+            );
+        }
+    }
+
+    /// @author Denis M. Putnam
+    /// @notice Get an invoice
+    /// @param _userAddress user address
+    /// @param _clientName name of the client
+    /// @param _invoiceNumber invoice number being requested.
+    /// @dev no other details
+    /// @return invoiceNumber
+    /// @return timesheetEndDate
+    /// @return invoiceSentDate
+    /// @return due30DaysDate
+    /// @return due60DaysDate
+    /// @return due90DaysDate
+    /// @return due120DaysDate
+    /// @return datePmtReceived
+    function getInvoiceDates(address _userAddress, string memory _clientName, uint256 _invoiceNumber)
+        public
+        view
+        userOnly(_userAddress, _clientName)
+        returns (
+            uint256 invoiceNumber,
+            uint256 timesheetEndDate,
+            uint256 invoiceSentDate,
+            uint256 due30DaysDate,
+            uint256 due60DaysDate,
+            uint256 due90DaysDate,
+            uint256 due120DaysDate,
+            uint256 datePmtReceived
+        )
+    {
+        int256 _index = findInvoiceIndex(_userAddress, _clientName, _invoiceNumber);
+        if (_index != -1) {
+            Invoice memory lInvoice = clientNameInvoiceMap[_clientName][uint256(
+                _index
+            )];
+            return (
+                lInvoice.invoiceNumber,
+                lInvoice.timesheetEndDate,
+                lInvoice.invoiceSentDate,
+                lInvoice.due30DaysDate,
+                lInvoice.due60DaysDate,
+                lInvoice.due90DaysDate,
+                lInvoice.due120DaysDate,
+                lInvoice.datePmtReceived
             );
         }
     }

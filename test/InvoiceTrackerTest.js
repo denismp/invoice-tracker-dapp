@@ -79,13 +79,13 @@ contract("InvoiceTracker", async accounts => {
     assert.equal(result.datePmtReceived, now);
   });
 
-  // it.skip('javascript test get client', async () => {
-  //   console.log("GET CLIENT");
-  //   let result = await invoiceTracker.getClientByIndex(0);
-  //   console.log('result=',result);
-  //   //truffleAssert.prettyPrintEmittedEvents(result);
-  //   assert.equal(result.name, 'test');
-  // });
+  it('javascript test get client', async () => {
+    console.log("GET CLIENT BY INDEX");
+    let result = await invoiceTracker.getClientByIndex("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3",0);
+    console.log('result=',result);
+    //truffleAssert.prettyPrintEmittedEvents(result);
+    assert.equal(result.name, 'test');
+  });
 
   async function addInvoice(_invoiceNumber) {
     const now = Math.floor((new Date()).getTime() / 1000);

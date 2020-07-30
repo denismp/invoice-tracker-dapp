@@ -17,6 +17,11 @@ contract InvoiceTrackerTest {
   }
 
   function testAddClient() public {
-    invoiceTracker.addClient(address(0x555), "test");
+    invoiceTracker.addClient(payable(0x9769862B4e59e0F23F495C3c21F4c9a6def307F3),address(0x555), "test");
+  }
+
+  function testAddUser() public {
+    invoiceTracker.addUser(payable(0x28Fcf7997E56f1Fadd4FA39fD834e5B96cb13b2B), "test", "password");
+    invoiceTracker.addUser(payable(0x9769862B4e59e0F23F495C3c21F4c9a6def307F3), "test2", "password");
   }
 }

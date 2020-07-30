@@ -18,6 +18,22 @@
       "name": "Launch Chrome against localhost",
       "url": "http://localhost:4200",
       "webRoot": "${workspaceFolder}"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run Tuffle Tests",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "/Users/denisputnam/.nvm/versions/node/v12.16.1/lib/node_modules/truffle/build/cli.bundled.js",
+      "args": [
+        "test"
+      ],
+      "cwd": "${workspaceRoot}",
+      "outFiles": [
+        "${workspaceRoot}/test/**/*"
+      ],
     }
   ]
 }

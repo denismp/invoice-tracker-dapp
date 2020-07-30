@@ -94,7 +94,7 @@ migrations/ directories and their contents.  This is too set up local truffle te
 truffle development
 
 # Run remixd
-remixd -s /Users/denisputnam/git/APDF-invoice-tracker-dapp --remix-ide http://remix.ethereum.org
+remixd -s /Users/denisputnam/git/invoice-tracker-dapp --remix-ide http://remix.ethereum.org
 
 http://remix.ethereum.org/#optimize=false&evmVersion=null&version=soljson-v0.6.6+commit.6c089d02.js
 

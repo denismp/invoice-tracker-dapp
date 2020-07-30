@@ -64,23 +64,22 @@ contract("InvoiceTracker", async accounts => {
     console.log("invoice invoicePmtDate=" + result.datePmtReceived);
   });
 
-  it.skip('javascript test update invoice', async () => {
+  it('javascript test update invoice', async () => {
     let count = await addInvoice(1);
     assert.equal(count, 1);
     //const result = await debug(invoiceTracker.getInvoice("test", 1));
     const now = Math.floor((new Date()).getTime() / 1000) + 100;
     console.log("UPDATE INVOICE");
-    let result = await invoiceTracker.updateInvoice("test", 1, now);
+    let result = await invoiceTracker.updateInvoice("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","test", 1, now);
     truffleAssert.prettyPrintEmittedEvents(result);
-    result = await invoiceTracker.getInvoice("test", 1);
+    result = await invoiceTracker.getInvoiceDates("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","test", 1);
     console.log("updated invoice number=" + result.invoiceNumber);
-    console.log("update invoice netTerms=" + result.netTerms);
     console.log("updated invoice invoicePmtDate=" + result.datePmtReceived);
     console.log("updated now=" + now);
     assert.equal(result.datePmtReceived, now);
   });
 
-  // it('javascript test get client', async () => {
+  // it.skip('javascript test get client', async () => {
   //   console.log("GET CLIENT");
   //   let result = await invoiceTracker.getClientByIndex(0);
   //   console.log('result=',result);

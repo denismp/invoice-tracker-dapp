@@ -6,6 +6,7 @@ import { InvoiceListDataSource } from './invoice-list-datasource';
 import { InvoiceService } from '../services/invoice.service';
 import { InvoiceListItem } from './invoice-list-item.interface';
 import { InvoiceRecordItem } from './invoice-record-item.interface';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-invoice-list',
@@ -38,7 +39,7 @@ export class InvoiceListComponent implements AfterViewInit, OnInit {
     'datePmtReceived'
   ];
 
-  constructor(private invoiceService: InvoiceService) { }
+  constructor(private userService: UserService, private invoiceService: InvoiceService) { }
 
   ngOnInit() {
     this.dataSource = new InvoiceListDataSource();
@@ -58,6 +59,7 @@ export class InvoiceListComponent implements AfterViewInit, OnInit {
   }
 
   nameEventHandler($event: any) {
+    const userAddress: string = this.userService.userAddress;
     console.log('InvoiceListComponent.nameEventHandler(): called...');
     this.submitted = true;
     this.clientName = $event;
@@ -65,7 +67,7 @@ export class InvoiceListComponent implements AfterViewInit, OnInit {
     this.submitted = true;
     // Here we need to call the solidity contract to get the list of invoice numbers and then retrieve the invoices one at a time.
     this.isFetching = true;
-    this.invoiceService.getInvoiceNumbers(this.clientName)
+    this.invoiceService.getInvoiceNumbers(userAddress, this.clientName)
       .then(res => {
         this.isFetching = false;
         if (res !== undefined) {
@@ -78,7 +80,7 @@ export class InvoiceListComponent implements AfterViewInit, OnInit {
           for (let i = 0; i < _invNums.length; i++) {
             //console.log('nList[' + i + ']=' + nList[i]);
             let _invNum: number = _invNums[i];
-            this.invoiceService.getInvoice(clientName, _invNum)
+            this.invoiceService.getInvoice(userAddress, clientName, _invNum)
               .then(invoice => {
                 console.log('InvoiceListComponent.nameEventHandler(): invoice: ', invoice);
                 invoice.clientName = this.clientName;

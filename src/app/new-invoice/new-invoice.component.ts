@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ThrowStmt } from '@angular/compiler';
 import { InvoiceService } from '../services/invoice.service';
 import { Web3Service } from '../services/web3.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-new-invoice',
@@ -21,7 +22,7 @@ export class NewInvoiceComponent {
   });
   submitting: boolean = false;
 
-  constructor(private fb: FormBuilder, private invoiceService: InvoiceService, private web3Service: Web3Service) { }
+  constructor(private fb: FormBuilder, private userService: UserService, private invoiceService: InvoiceService, private web3Service: Web3Service) { }
 
   onSubmit() {
     let error: boolean = false;
@@ -33,6 +34,7 @@ export class NewInvoiceComponent {
     let amountofinvoice: string = this.addressForm.get('amountofinvoice').value;
     let timesheetendingdate: string = this.addressForm.get('timesheetendingdate').value;
     let timesheetsentdate: string = this.addressForm.get('timesheetsentdate').value;
+    const userAddres: string = this.userService.userAddress;
 
     if (name === null) {
       error = true;
@@ -69,6 +71,7 @@ export class NewInvoiceComponent {
       console.log('NewInvoiceComponent.onSubmit(): conversions of timesheetsentdate in millseconds=', Date.parse(timesheetsentdate));
       console.log('NewInvoiceComponent.onSubmit(): conversions of timesheetsentdate in seconds(Unix Epoch)=', Math.round(Date.parse(timesheetsentdate)/1000));
       this.invoiceService.addInvoice(
+        userAddres,
         name,
         parseInt(invoicenumber),
         parseInt(netterms),

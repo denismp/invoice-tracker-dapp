@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ClientService } from '../services/client.service';
 import { Web3Service } from '../services/web3.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-new-client',
@@ -17,9 +18,10 @@ export class NewClientComponent {
 
   submitting: boolean = false;
 
-  constructor(private fb: FormBuilder, private clientService: ClientService, private web3Service: Web3Service) { }
+  constructor(private fb: FormBuilder, private userService: UserService, private clientService: ClientService, private web3Service: Web3Service) { }
 
   onSubmit() {
+    const userAddress: string = this.userService.userAddress;
     let address: string = this.addressForm.get('address').value;
     let name: string = this.addressForm.get('name').value;
     let error: boolean = false;
@@ -36,7 +38,7 @@ export class NewClientComponent {
       alert(rString);
     } else {
       this.submitting = true;
-      this.clientService.createClient(address, name)
+      this.clientService.createClient(userAddress, address, name)
         .then(res => {
           this.submitting = false;
           console.log('NewClientComponent.onSubmit(): res: ', res);

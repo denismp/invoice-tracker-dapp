@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { InvoiceService } from '../services/invoice.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-update-invoice',
@@ -17,9 +18,10 @@ export class UpdateInvoiceComponent {
 
   submitting: boolean = false;
 
-  constructor(private fb: FormBuilder, private invoiceService: InvoiceService) { }
+  constructor(private fb: FormBuilder, private userService: UserService, private invoiceService: InvoiceService) { }
 
   onSubmit() {
+    const userAddress: string = this.userService.userAddress;
     let error: boolean = false;
     let rString: string = "Thank you."
     let name: string = this.addressForm.get('name').value;
@@ -44,6 +46,7 @@ export class UpdateInvoiceComponent {
       console.log('UpdateInvoiceComponent.onSubmit(): conversions of paymentreceiveddate in millseconds=', Date.parse(paymentreceiveddate));
       console.log('UpdateInvoiceComponent.onSubmit(): conversions of paymentreceiveddate in seconds(Unix Epoch)=', Math.round(Date.parse(paymentreceiveddate)/1000));
       this.invoiceService.updateInvoice(
+        userAddress,
         name,
         parseInt(invoicenumber),
         Math.round(Date.parse(paymentreceiveddate)/1000)

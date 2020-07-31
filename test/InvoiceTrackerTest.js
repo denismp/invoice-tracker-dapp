@@ -2,10 +2,18 @@ const InvoiceTracker = artifacts.require("InvoiceTracker");
 const utils = require("./utils.js");
 const truffleAssert = require('truffle-assertions');
 
+
+require('@openzeppelin/test-helpers/configure')({
+  provider: 'http://localhost:8555',
+});
+
+const { time, expectEvent } = require('@openzeppelin/test-helpers');
+
 contract("InvoiceTracker", async accounts => {
 
   let invoiceTracker;
   beforeEach(async () => {
+    try {
     invoiceTracker = await InvoiceTracker.new();
     let userAccountAddress = "0x9769862B4e59e0F23F495C3c21F4c9a6def307F3";
     let userName = "user1";
@@ -24,6 +32,9 @@ contract("InvoiceTracker", async accounts => {
       console.log("DEBUG:" + myequal);
       return event._clientID.toUpperCase() == clientID.toUpperCase() && event._name === "test";
     });
+  } catch(e) {
+    console('DEBUG@@@@@', e);
+  }
   });
 
   // it('javascript test add an invoice', async () => {

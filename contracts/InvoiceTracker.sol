@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.6.6;
 
-import "./Owned.sol";
+//import "./Owned.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @title Invoice Tracking contract
 /// @author Denis M. Putnam
 /// @notice This contract tracks invoices for payment
 /// @dev Use at your own risk.
-contract InvoiceTracker is Owned {
+contract InvoiceTracker is Ownable {
     /// @dev Invoice struct
     struct Invoice {
         uint256 invoiceNumber;
@@ -63,7 +64,7 @@ contract InvoiceTracker is Owned {
     /// @author Denis M. Putnam
     /// @notice The constructor for this contract
     /// @dev no other details
-    constructor() public payable Owned() {}
+    constructor() public payable Ownable() {}
 
     event addClientEvent(address _userAddress, address _clientID, string _name);
     event duplicateInvoiceEvent(string _clientName, uint256 _invoiceNumber);

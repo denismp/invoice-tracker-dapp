@@ -199,7 +199,7 @@ contract InvoiceTracker is Ownable {
     /// @notice Get the count of users.
     /// @return usercount
     /// @dev no other details.
-    function getUserCount() public view returns (uint usercount) {
+    function getUserCount() public view onlyOwner() returns (uint usercount) {
       return userCount;
     }
 
@@ -208,7 +208,7 @@ contract InvoiceTracker is Ownable {
     /// @param _index index of the user
     /// @return _userAddress
     /// @dev no other details.
-    function getUserAddressByIndex(uint _index) public view returns (address _userAddress) {
+    function getUserAddressByIndex(uint _index) public view onlyOwner() returns (address _userAddress) {
       return (userIndexMap[_index]);
     }
 

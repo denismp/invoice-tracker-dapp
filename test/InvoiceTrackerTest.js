@@ -94,12 +94,25 @@ contract("InvoiceTracker", async accounts => {
     assert.equal(result.name, 'test');
   });
 
+  it('javascript test get user count', async () => {
+    console.log("GET USER COUNT");
+    let result = await invoiceTracker.getUserCount();
+    console.log('result=',result);
+    assert.equal(result, '1');
+  });
+
+  it('javascript test get user address by index', async () => {
+    console.log("GET USER ADDRESS BY INDEX");
+    let result = await invoiceTracker.getUserAddressByIndex(0);
+    console.log('result=',result);
+    assert.equal(result, '0x9769862B4e59e0F23F495C3c21F4c9a6def307F3');
+  });
+
   it('javascript test get user', async () => {
     console.log("GET USER");
     let result = await invoiceTracker.getUser("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3");
     //truffleAssert.prettyPrintEmittedEvents(result);
     console.log('result=',result);
-    //truffleAssert.prettyPrintEmittedEvents(result);
     assert.equal(result.name, 'user1');
   });
 
@@ -108,7 +121,6 @@ contract("InvoiceTracker", async accounts => {
     let result = await invoiceTracker.getUserName("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3");
     //truffleAssert.prettyPrintEmittedEvents(result);
     console.log('result=',result);
-    //truffleAssert.prettyPrintEmittedEvents(result);
     assert.equal(result, 'user1');
   });
 

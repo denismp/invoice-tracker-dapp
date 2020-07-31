@@ -82,7 +82,7 @@ export class Web3Service {
       //     onTimeout: false
       //   }
       // };
-      let contractAddress = "0xBC7d26bBFE1Ef317F5247DD9813b16c9749A4B8C";
+      let contractAddress = "0x8f5Afc42Af36aB21622F2E31F440C7e225c5952b";
       //let contractAddress = "0x4fa7c2933A553b9346a44ebd9DF6962747a606d4"; //ropsten
       // Hack to provide backwards compatibility for Truffle, which uses web3js 0.20.x
       //Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;

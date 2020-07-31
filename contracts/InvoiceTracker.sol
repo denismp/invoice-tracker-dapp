@@ -44,6 +44,10 @@ contract InvoiceTracker is Ownable {
     mapping(address => User) private usersMap;
     /// @dev map the user address to the client ID
     mapping(address => address) private userClientIDMap;
+    /// @dev user count
+    uint userCount = 0;
+    /// @dev map the user index to the user address
+    mapping (uint => address) userIndexMap;
     /// @dev map the user name to his Clients.
     mapping(address => Client[]) private usersToClientsMap;
     /// @dev map the user address to the number of his Clients.
@@ -107,6 +111,8 @@ contract InvoiceTracker is Ownable {
     function addUser(address payable _address, string memory _name, string memory _pwd) public noDupUser(_address) {
       bytes32 epwd = keccak256(abi.encodePacked(_pwd));
       usersMap[_address] = User(_name,epwd,true);
+      userIndexMap[userCount] = _address;
+      userCount += 1;
       emit addUserEvent(_address, _name, _pwd);
     }
 
@@ -189,23 +195,23 @@ contract InvoiceTracker is Ownable {
       return (usersMap[_userAddress].name, usersMap[_userAddress].ePwd);
     }
 
+    /// @author Denis M. Putnam
+    /// @notice Get the count of users.
+    /// @return usercount
+    /// @dev no other details.
+    function getUserCount() public view returns (uint usercount) {
+      return userCount;
+    }
 
-    // /// @author Denis M. Putnam
-    // /// @notice get the client by index number.
-    // /// @param _index index of client name
-    // /// @dev no further info
-    // /// @return name
-    // /// @return clientID
-    // function getClientByIndex(uint256 _index)
-    //     public
-    //     view
-    //     returns (string memory name, address clientID)
-    // {
-    //     string memory lclientName = clientNameArray[_index];
-    //     string memory lname = clientMap[lclientName].name;
-    //     address lclientID = clientMap[lclientName].clientID;
-    //     return (lname, lclientID);
-    // }
+    /// @author Denis M. Putnam
+    /// @notice Get the user address
+    /// @param _index index of the user
+    /// @return _userAddress
+    /// @dev no other details.
+    function getUserAddressByIndex(uint _index) public view returns (address _userAddress) {
+      return (userIndexMap[_index]);
+    }
+
 
     function getClientCount(address _userAddress) public view returns (int256 count) {
         //return clientNameArray.length;
@@ -275,95 +281,6 @@ contract InvoiceTracker is Ownable {
        "User and client are not related");
       _;
     }
-
-
-    // /// @author Denis M. Putnam
-    // /// @notice Add an invoice to track
-    // /// @param _userAddress user address
-    // /// @param _clientName name of the client
-    // /// @param _invoiceNumber invoice number
-    // /// @param _netTerms net terms for 30, 60, 90, or 120 days.
-    // /// @param _numberHours number of hours for the timesheet.
-    // /// @param _amount amount in dollars.
-    // /// @param _timesheetEndDate timesheet end date
-    // /// @param _invoiceSentDate date that invoice was sent to the client.
-    // /// @param _due30DaysDate 30 day invoice due date
-    // /// @param _due60DaysDate 60 day invoice due date
-    // /// @param _due90DaysDate 90 day invoice due date
-    // /// @param _due120DaysDate 120 day invoice due date
-    // /// @dev Add's an invoice to be tracked.
-    // function addInvoice(
-    //     address _userAddress,
-    //     string memory _clientName,
-    //     uint256 _invoiceNumber,
-    //     uint256 _netTerms,
-    //     uint256 _numberHours,
-    //     string memory _amount,
-    //     uint256 _timesheetEndDate,
-    //     uint256 _invoiceSentDate,
-    //     uint256 _due30DaysDate,
-    //     uint256 _due60DaysDate,
-    //     uint256 _due90DaysDate,
-    //     uint256 _due120DaysDate
-    // ) public userOnly(_userAddress, _clientName) noDupInvoice(_clientName, _invoiceNumber) {
-    //     Invoice memory newInvoice;
-    //     newInvoice.invoiceNumber = _invoiceNumber;
-    //     newInvoice.netTerms = _netTerms;
-    //     newInvoice.numberHours = _numberHours;
-    //     newInvoice.amount = _amount;
-    //     newInvoice.timesheetEndDate = _timesheetEndDate;
-    //     newInvoice.invoiceSentDate = _invoiceSentDate;
-    //     newInvoice.due30DaysDate = _due30DaysDate;
-    //     newInvoice.due60DaysDate = _due60DaysDate;
-    //     newInvoice.due90DaysDate = _due90DaysDate;
-    //     newInvoice.due120DaysDate = _due120DaysDate;
-    //     // Invoice memory newInvoice = Invoice(
-    //     //                                     _invoiceNumber,
-    //     //                                     _netTerms,
-    //     //                                     _numberHours,
-    //     //                                     _amount,
-    //     //                                     _timesheetEndDate,
-    //     //                                     _invoiceSentDate,
-    //     //                                     _due30DaysDate,
-    //     //                                     _due60DaysDate,
-    //     //                                     _due90DaysDate,
-    //     //                                     _due120DaysDate,
-    //     //                                     0);
-    //     clientNameInvoiceMap[_clientName].push(newInvoice);
-    //     clientNameInvoiceNumMap[_clientName].push(_invoiceNumber);
-
-    //     incremmentInvoiceCount(_clientName);
-
-    //     emit addInvoiceEvent(
-    //         _clientName,
-    //         newInvoice.invoiceNumber,
-    //         newInvoice.netTerms,
-    //         newInvoice.numberHours,
-    //         newInvoice.amount,
-    //         newInvoice.timesheetEndDate,
-    //         newInvoice.invoiceSentDate,
-    //         newInvoice.due30DaysDate,
-    //         newInvoice.due60DaysDate,
-    //         newInvoice.due90DaysDate,
-    //         newInvoice.due120DaysDate,
-    //         newInvoice.datePmtReceived
-    //     );
-
-    //     // emit addInvoiceEvent(
-    //     //     _clientName,
-    //     //     clientNameInvoiceMap[_clientName][0].invoiceNumber,
-    //     //     clientNameInvoiceMap[_clientName][0].netTerms,
-    //     //     clientNameInvoiceMap[_clientName][0].numberHours,
-    //     //     clientNameInvoiceMap[_clientName][0].amount,
-    //     //     clientNameInvoiceMap[_clientName][0].timesheetEndDate,
-    //     //     clientNameInvoiceMap[_clientName][0].invoiceSentDate,
-    //     //     clientNameInvoiceMap[_clientName][0].due30DaysDate,
-    //     //     clientNameInvoiceMap[_clientName][0].due60DaysDate,
-    //     //     clientNameInvoiceMap[_clientName][0].due90DaysDate,
-    //     //     clientNameInvoiceMap[_clientName][0].due120DaysDate,
-    //     //     clientNameInvoiceMap[_clientName][0].datePmtReceived
-    //     // );
-    // }
 
     /// @author Denis M. Putnam
     /// @notice Add an invoice to track
@@ -450,15 +367,6 @@ contract InvoiceTracker is Ownable {
         userOnly(_userAddress, _clientName)
         returns (uint256[] memory)
     {
-        // string memory rVal = "";
-        // for (uint256 i = 0; i < clientNameInvoiceCountMap[_clientName]; i++) {
-        //     string memory tstring = uint2str(
-        //         clientNameInvoiceMap[_clientName][i].invoiceNumber
-        //     );
-        //     // string tstring = string(lbytes32);
-        //     //rVal = string(abi.encodePacked(rVal, tstring, ","));
-        //     rVal = string(abi.encodePacked(rVal, tstring, ","));
-        // }
         return clientNameInvoiceNumMap[_clientName];
     }
 
@@ -517,75 +425,6 @@ contract InvoiceTracker is Ownable {
             );
         }
     }
-
-    // /// @author Denis M. Putnam
-    // /// @notice Get an invoice
-    // /// @param _userAddress user address
-    // /// @param _clientName name of the client
-    // /// @param _invoiceNumber invoice number being requested.
-    // /// @dev no other details
-    // /// @return invoiceNumber
-    // /// @return netTerms
-    // /// @return numberHours
-    // /// @return amount
-    // /// @return timesheetEndDate
-    // /// @return invoiceSentDate
-    // /// @return due30DaysDate
-    // /// @return due60DaysDate
-    // /// @return due90DaysDate
-    // /// @return due120DaysDate
-    // /// @return datePmtReceived
-    // function getInvoice(address _userAddress, string memory _clientName, uint256 _invoiceNumber)
-    //     public
-    //     view
-    //     userOnly(_userAddress, _clientName)
-    //     returns (
-    //         uint256 invoiceNumber,
-    //         uint256 netTerms,
-    //         uint256 numberHours,
-    //         string memory amount,
-    //         uint256 timesheetEndDate,
-    //         uint256 invoiceSentDate,
-    //         uint256 due30DaysDate,
-    //         uint256 due60DaysDate,
-    //         uint256 due90DaysDate,
-    //         uint256 due120DaysDate,
-    //         uint256 datePmtReceived
-    //     )
-    // {
-    //     int256 _index = findInvoiceIndex(_userAddress, _clientName, _invoiceNumber);
-    //     if (_index != -1) {
-    //         Invoice memory lInvoice = clientNameInvoiceMap[_clientName][uint256(
-    //             _index
-    //         )];
-    //         return (
-    //             lInvoice.invoiceNumber,
-    //             lInvoice.netTerms,
-    //             lInvoice.numberHours,
-    //             lInvoice.amount,
-    //             lInvoice.timesheetEndDate,
-    //             lInvoice.invoiceSentDate,
-    //             lInvoice.due30DaysDate,
-    //             lInvoice.due60DaysDate,
-    //             lInvoice.due90DaysDate,
-    //             lInvoice.due120DaysDate,
-    //             lInvoice.datePmtReceived
-    //         );
-    //         // return (
-    //         //     invoiceNumber,
-    //         //     netTerms,
-    //         //     numberHours,
-    //         //     amount,
-    //         //     timesheetEndDate,
-    //         //     invoiceSentDate,
-    //         //     due30DaysDate,
-    //         //     due60DaysDate,
-    //         //     due90DaysDate,
-    //         //     due120DaysDate,
-    //         //     datePmtReceived
-    //         // );
-    //     }
-    // }
 
     /// @author Denis M. Putnam
     /// @notice Get an invoice

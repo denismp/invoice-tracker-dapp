@@ -17,7 +17,7 @@ export class UserService {
       let owner: string = this.web3Service.owner;
       this.success = true;
       this.userAddress = userAddress;
-      return await this.web3Service.contract.methods.addUser(userAddress, userName, password).send({ from: userAddress, gas: 3000000 });
+      return await this.web3Service.contract.methods.addUser(userAddress, userName, password).send({ from: owner, gas: 3000000 });
     } catch (err) {
       this.success = false;
       console.log('UserService.createUser(): failed:', err);

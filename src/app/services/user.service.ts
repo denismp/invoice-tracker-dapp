@@ -30,19 +30,24 @@ export class UserService {
     try {
       //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
       let owner: string = this.web3Service.owner;
+      this.success = true;
       return await this.web3Service.contract.methods.getUserName(userAddress).call({ from: userAddress, gas: 3000000 });
     } catch (err) {
+      this.success = false;
       console.log('UserService.getUserName(): failed:', err);
       alert('UserService.UserName(): failed:' + err);
     }
   }
 
   public async getUser(userAddress: string): Promise<User> {
+    console.log("UserService.getUser(): DEBUG");
     try {
       //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
       let owner: string = this.web3Service.owner;
+      this.success = true;
       return await this.web3Service.contract.methods.getUser(userAddress).call({ from: userAddress, gas: 3000000 });
     } catch (err) {
+      this.success = false;
       console.log('UserService.getUser(): failed:', err);
       alert('UserService.User(): failed:' + err);
     }

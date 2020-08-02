@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { Web3Service } from '../services/web3.service';
+import { User } from './user.interface';
 
 @Component({
   selector: 'app-user',
@@ -20,50 +21,70 @@ export class UserComponent {
 
   constructor(private fb: FormBuilder, private userService: UserService, private web3Service: Web3Service) { }
 
-  onSubmit() {
+  async onSubmit() {
     //let userAddress: string = this.userService.userAddress;
+    let readSuccess: boolean = false;
     let address: string = this.addressForm.get('address').value;
     let name: string = this.addressForm.get('name').value;
     let pwd: string = this.addressForm.get('pwd').value;
     let error: boolean = false;
-    // if (userAddress === "undefined") {
-    //   userAddress = address;
-    //   this.userService.userAddress = address;
-    // }
-    // TODO Deal with existing user.  Query the contract to see if the user exists.
+    let rString: string = "";
     if (name === "undefined") {
       error = true;
+      rString = "Please enter a user name."
     }
-    if (address === "undefined") {
+    if (address === "undefined" || address.length !== 42) {
       error = true;
+      rString = "Please enter an wallet account address of length 42 starting with '0x'."
     }
-    if (pwd === "undefined") {
+    if (pwd === "undefined" || pwd.length < 8) {
       error = true;
+      rString = "Please enter a password of 8 characters."
     }
 
-    let rString: string = "Thank you."
     if (error === true) {
-      rString = "The data you entered is invalid."
       alert(rString);
     } else {
-      this.submitting = true;
-      this.userService.createUser(address, name, pwd)
-        .then(res => {
-          this.submitting = false;
-          console.log('UserComponent.onSubmit(): res: ', res);
-          if (this.userService.success === true) {
-            let myData: string = "transactionHash=" + res.transactionHash + " blockHash=" + res.blockHash + " blockNumber=" + res.blockNumber;
-            alert('Successfully added ' + name + " " + myData);
-          } else {
-            alert('Add of ' + name + ' failed');
-          }
-        })
-        .catch(err => {
-          this.submitting = false;
-          console.log('UserComponent.onSubmit(): err: ', err);
-          alert('Submit failed.');
-        });
+      // Query the contract for the user to see if this is a login or a new user.
+      const user: User = await this.userService.getUser(address);
+      if (user === null) {
+        readSuccess = false;
+      } else {
+        if (this.isValidPassword(user.ePwd, pwd)) {
+          readSuccess = false;
+          error = true;
+          alert('You entered an invalid password')
+        } else {
+          readSuccess = true;
+          this.userService.userAddress = address;
+          console.log('UserComponent.onSubmit().getUser(): ' + address + ' is an existing user.');
+        }
+      }
+      if (readSuccess === false && error === false) {
+        this.submitting = true;
+        this.userService.createUser(address, name, pwd)
+          .then(res => {
+            this.submitting = false;
+            console.log('UserComponent.onSubmit().createUser(): res: ', res);
+            if (this.userService.success === true) {
+              let myData: string = "transactionHash=" + res.transactionHash + " blockHash=" + res.blockHash + " blockNumber=" + res.blockNumber;
+              alert('Successfully added ' + name + " " + myData);
+            } else {
+              alert('Add of ' + name + ' failed');
+            }
+          })
+          .catch(err => {
+            this.submitting = false;
+            console.log('UserComponent.onSubmit(): err: ', err);
+            alert('Submit failed.');
+          });
+      }
     }
+  }
+
+  private isValidPassword(epwd: string, pwd: string): boolean {
+    //const encryptedMnemonic = CryptoJS.AES.encrypt(mnemonic, password).toString();
+    return true;
   }
 
   isValidHexString(str: string): boolean {

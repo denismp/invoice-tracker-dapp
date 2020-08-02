@@ -23,6 +23,7 @@ contract InvoiceTracker is Ownable {
         uint256 due120DaysDate;
         uint256 datePmtReceived;
     }
+    Invoice newInvoice;
 
     /// @dev Client struct
     struct Client {
@@ -33,9 +34,9 @@ contract InvoiceTracker is Ownable {
 
     /// @dev User struct
     struct User {
-      string name;
-      bytes32 ePwd;
-      bool flag;
+        string name;
+        bytes32 ePwd;
+        bool flag;
     }
 
     /// @dev map the name of the client to the Client struct
@@ -45,9 +46,9 @@ contract InvoiceTracker is Ownable {
     /// @dev map the user address to the client ID
     mapping(address => address) private userClientIDMap;
     /// @dev user count
-    uint userCount = 0;
+    uint256 userCount = 0;
     /// @dev map the user index to the user address
-    mapping (uint => address) userIndexMap;
+    mapping(uint256 => address) userIndexMap;
     /// @dev map the user name to his Clients.
     mapping(address => Client[]) private usersToClientsMap;
     /// @dev map the user address to the number of his Clients.
@@ -80,40 +81,31 @@ contract InvoiceTracker is Ownable {
     /// @param _clientName name of the client.
     /// @param _clientID clients wallet address.
     /// @dev no other details.
-    function isNoClient(address _userAddress, string memory _clientName, address _clientID)
-        public
-        payable
-        returns (bool)
-    {
-        if (clientNameAddressMap[_clientName] == _clientID && userClientIDMap[_userAddress] == _clientID) {
+    function isNoClient(
+        address _userAddress,
+        string memory _clientName,
+        address _clientID
+    ) public payable returns (bool) {
+        if (
+            clientNameAddressMap[_clientName] == _clientID &&
+            userClientIDMap[_userAddress] == _clientID
+        ) {
             emit duplicateClientEvent(_userAddress, _clientName);
             return false;
         }
         return true;
     }
 
-    modifier noDupClient(address _userAddress, address _clientID, string memory _clientName) {
-        require(isNoClient(_userAddress, _clientName, _clientID), "Client already exists for the given user");
+    modifier noDupClient(
+        address _userAddress,
+        address _clientID,
+        string memory _clientName
+    ) {
+        require(
+            isNoClient(_userAddress, _clientName, _clientID),
+            "Client already exists for the given user"
+        );
         _;
-    }
-
-    modifier noDupUser(address _address) {
-      require(usersMap[_address].flag == false, "User already exists");
-      _;
-    }
-
-    /// @author Denis M. Putnam
-    /// @notice Add a user
-    /// @param _address wallet account address for the user
-    /// @param _name user name
-    /// @param _pwd unencrypted password
-    /// @dev no other details.
-    function addUser(address payable _address, string memory _name, string memory _pwd) public noDupUser(_address) {
-      bytes32 epwd = keccak256(abi.encodePacked(_pwd));
-      usersMap[_address] = User(_name,epwd,true);
-      userIndexMap[userCount] = _address;
-      userCount += 1;
-      emit addUserEvent(_address, _name, _pwd);
     }
 
     /// @author Denis M. Putnam
@@ -122,10 +114,11 @@ contract InvoiceTracker is Ownable {
     /// @param _clientID address of the wallet of the client.
     /// @param _name string with the client's name.  This needs to be unique
     /// @dev Add's a client to the clientMap and the clientNameAddressMap
-    function addClient(address _userAddress,address _clientID, string memory _name)
-        public
-        noDupClient(_userAddress, _clientID, _name)
-    {
+    function addClient(
+        address _userAddress,
+        address _clientID,
+        string memory _name
+    ) public noDupClient(_userAddress, _clientID, _name) {
         clientMap[_name].clientID = _clientID;
         clientMap[_name].name = _name;
         clientMap[_name].flag = true;
@@ -143,14 +136,20 @@ contract InvoiceTracker is Ownable {
     /// @author Denis M. Putnam
     /// @notice Get the requested client
     /// @param _userAddress user address
+    /// @param _pwd plain text password
     /// @param _name client's name
     /// @dev Get the client for the given name.
     /// @return name
     /// @return clientID
-    function getClientByName(address _userAddress, string memory _name)
+    function getClientByName(
+        address _userAddress,
+        string memory _pwd,
+        string memory _name
+    )
         public
         view
         userOnly(_userAddress, _name)
+        isValidPassword(_userAddress, _pwd)
         returns (string memory name, address clientID)
     {
         string memory lname = clientMap[_name].name;
@@ -164,9 +163,10 @@ contract InvoiceTracker is Ownable {
     /// @dev no further info
     /// @return name
     /// @return clientID
-    function getClientByIndex(address _userAddress, uint256 _index)
+    function getClientByIndex(address _userAddress, string memory _pwd, uint256 _index)
         public
         view
+        isValidPassword(_userAddress, _pwd)
         returns (string memory name, address clientID)
     {
         Client memory _client = usersToClientsMap[_userAddress][_index];
@@ -175,14 +175,40 @@ contract InvoiceTracker is Ownable {
         return (lname, lclientID);
     }
 
+    modifier noDupUser(address _address) {
+        require(usersMap[_address].flag == false, "User already exists");
+        _;
+    }
+
+    /// @author Denis M. Putnam
+    /// @notice Add a user
+    /// @param _address wallet account address for the user
+    /// @param _name user name
+    /// @param _pwd unencrypted password
+    /// @dev no other details.
+    function addUser(
+        address payable _address,
+        string memory _name,
+        string memory _pwd
+    ) public noDupUser(_address) {
+        bytes32 epwd = keccak256(abi.encodePacked(_pwd));
+        usersMap[_address] = User(_name, epwd, true);
+        userIndexMap[userCount] = _address;
+        userCount += 1;
+        emit addUserEvent(_address, _name, _pwd);
+    }
 
     /// @author Denis M. Putnam
     /// @notice Get the user name
     /// @param _userAddress user address
     /// @dev Get the client for the given name.
     /// @return name
-    function getUserName(address _userAddress) public view returns (string memory name) {
-      return usersMap[_userAddress].name;
+    function getUserName(address _userAddress)
+        public
+        view
+        returns (string memory name)
+    {
+        return usersMap[_userAddress].name;
     }
 
     /// @author Denis M. Putnam
@@ -191,16 +217,25 @@ contract InvoiceTracker is Ownable {
     /// @dev Get the client for the given name.
     /// @return name
     /// @return ePwd
-    function getUser(address _userAddress) public view returns (string memory name, bytes32 ePwd) {
-      return (usersMap[_userAddress].name, usersMap[_userAddress].ePwd);
+    function getUser(address _userAddress)
+        public
+        view
+        returns (string memory name, bytes32 ePwd)
+    {
+        return (usersMap[_userAddress].name, usersMap[_userAddress].ePwd);
     }
 
     /// @author Denis M. Putnam
     /// @notice Get the count of users.
     /// @return usercount
     /// @dev no other details.
-    function getUserCount() public view onlyOwner() returns (uint usercount) {
-      return userCount;
+    function getUserCount()
+        public
+        view
+        onlyOwner()
+        returns (uint256 usercount)
+    {
+        return userCount;
     }
 
     /// @author Denis M. Putnam
@@ -208,12 +243,20 @@ contract InvoiceTracker is Ownable {
     /// @param _index index of the user
     /// @return _userAddress
     /// @dev no other details.
-    function getUserAddressByIndex(uint _index) public view onlyOwner() returns (address _userAddress) {
-      return (userIndexMap[_index]);
+    function getUserAddressByIndex(uint256 _index)
+        public
+        view
+        onlyOwner()
+        returns (address _userAddress)
+    {
+        return (userIndexMap[_index]);
     }
 
-
-    function getClientCount(address _userAddress) public view returns (int256 count) {
+    function getClientCount(address _userAddress)
+        public
+        view
+        returns (int256 count)
+    {
         //return clientNameArray.length;
         return userToNumClientsMap[_userAddress];
     }
@@ -243,13 +286,10 @@ contract InvoiceTracker is Ownable {
 
     modifier noDupInvoice(string memory _clientName, uint256 _invoiceNumber) {
         bool flag = isNoDuplicateInvoice(_clientName, _invoiceNumber);
-        if(flag == false) {
+        if (flag == false) {
             emit duplicateInvoiceEvent(_clientName, _invoiceNumber);
         }
-        require(
-            flag,
-            "Duplicate invoice"
-        );
+        require(flag, "Duplicate invoice");
         _;
     }
 
@@ -274,17 +314,28 @@ contract InvoiceTracker is Ownable {
         uint256 _datePmtReceived
     );
 
-    modifier userOnly(address _userAddress, string  memory _clientName) {
-      address _clientID = clientMap[_clientName].clientID;
-      require(
-        userClientIDMap[_userAddress] == _clientID,
-       "User and client are not related");
-      _;
+    modifier userOnly(address _userAddress, string memory _clientName) {
+        address _clientID = clientMap[_clientName].clientID;
+        require(
+            userClientIDMap[_userAddress] == _clientID,
+            "User and client are not related"
+        );
+        _;
+    }
+
+    modifier isValidPassword(address _userAddress, string memory _pwd) {
+        bytes32 epwd = keccak256(abi.encodePacked(_pwd));
+        require(
+            usersMap[_userAddress].ePwd == epwd,
+            "Invalid password given"
+        );
+        _;
     }
 
     /// @author Denis M. Putnam
     /// @notice Add an invoice to track
     /// @param _userAddress user address
+    /// @param _pwd user password in plaintext
     /// @param _clientName name of the client
     /// @param _invoiceNumber invoice number
     /// @param _netTerms net terms for 30, 60, 90, or 120 days.
@@ -294,14 +345,21 @@ contract InvoiceTracker is Ownable {
     /// @dev Add's an invoice to be tracked.
     function addInvoice(
         address _userAddress,
+        string memory _pwd,
         string memory _clientName,
         uint256 _invoiceNumber,
         uint256 _netTerms,
         uint256 _numberHours,
         string memory _amount,
         uint256[] memory _dates
-    ) public userOnly(_userAddress, _clientName) noDupInvoice(_clientName, _invoiceNumber) {
-        Invoice memory newInvoice;
+    )
+        public
+        userOnly(_userAddress, _clientName)
+        isValidPassword(_userAddress, _pwd)
+        noDupInvoice(_clientName, _invoiceNumber)
+    {
+        //Invoice storage newInvoice;
+
         newInvoice.invoiceNumber = _invoiceNumber;
         newInvoice.netTerms = _netTerms;
         newInvoice.numberHours = _numberHours;
@@ -312,6 +370,7 @@ contract InvoiceTracker is Ownable {
         newInvoice.due60DaysDate = _dates[3]; // due60DaysDate
         newInvoice.due90DaysDate = _dates[4]; // due90DaysDate
         newInvoice.due120DaysDate = _dates[5]; // due120DaysDate
+
         clientNameInvoiceMap[_clientName].push(newInvoice);
         clientNameInvoiceNumMap[_clientName].push(_invoiceNumber);
 
@@ -343,13 +402,19 @@ contract InvoiceTracker is Ownable {
     /// @author Denis M. Putnam
     /// @notice Get the count of invoices associated with the given client name
     /// @param _userAddress user address
+    /// @param _pwd plaintext user password
     /// @param _clientName name of the client
     /// @dev no other details.
     /// @return count of invoices associated with the given client
-    function getInvoiceCount(address _userAddress, string memory _clientName)
+    function getInvoiceCount(
+        address _userAddress,
+        string memory _pwd,
+        string memory _clientName
+    )
         public
         view
         userOnly(_userAddress, _clientName)
+        isValidPassword(_userAddress, _pwd)
         returns (uint256 count)
     {
         count = clientNameInvoiceCountMap[_clientName];
@@ -358,13 +423,19 @@ contract InvoiceTracker is Ownable {
     /// @author Denis M. Putnam
     /// @notice Get the list of invoice numbers as a string for the given client name.
     /// @param _userAddress user address
+    /// @param _pwd plain text user password
     /// @param _clientName name of the client
     /// @dev returned string is a comma separated string of invoice numbers.  The comma is also the end of the string if no other values appear.
     /// @return a comma seperated list of invoice numbers associated with the client.
-    function getInvoiceNumbers(address _userAddress, string memory _clientName)
+    function getInvoiceNumbers(
+        address _userAddress,
+        string memory _pwd,
+        string memory _clientName
+    )
         public
         view
         userOnly(_userAddress, _clientName)
+        isValidPassword(_userAddress, _pwd)
         returns (uint256[] memory)
     {
         return clientNameInvoiceNumMap[_clientName];
@@ -375,10 +446,9 @@ contract InvoiceTracker is Ownable {
         _;
     }
 
-    function findInvoiceIndex(address _userAddress, string memory _clientName, uint256 _invoiceNumber)
+    function findInvoiceIndex(string memory _clientName, uint256 _invoiceNumber)
         private
         view
-        userOnly(_userAddress, _clientName)
         isInvoiceNumber(_invoiceNumber)
         returns (int256 index)
     {
@@ -401,17 +471,23 @@ contract InvoiceTracker is Ownable {
     /// @author Denis M. Putnam
     /// @notice Update an invoice with the payment date
     /// @param _userAddress user address
+    /// @param _pwd plain text password
     /// @param _clientName name of the client
     /// @param _invoiceNumber invoice number being requested.
     /// @param _invoicePmtDate payment date
     /// @dev no other details
     function updateInvoice(
         address _userAddress,
+        string memory _pwd,
         string memory _clientName,
         uint256 _invoiceNumber,
         uint256 _invoicePmtDate
-    ) public userOnly(_userAddress, _clientName){
-        int256 _index = findInvoiceIndex(_userAddress, _clientName, _invoiceNumber);
+    )
+        public
+        userOnly(_userAddress, _clientName)
+        isValidPassword(_userAddress, _pwd)
+    {
+        int256 _index = findInvoiceIndex(_clientName, _invoiceNumber);
         if (_index != -1) {
             Invoice memory lInvoice = clientNameInvoiceMap[_clientName][uint256(
                 _index
@@ -429,6 +505,7 @@ contract InvoiceTracker is Ownable {
     /// @author Denis M. Putnam
     /// @notice Get an invoice
     /// @param _userAddress user address
+    /// @param _pwd plain text password
     /// @param _clientName name of the client
     /// @param _invoiceNumber invoice number being requested.
     /// @dev no other details
@@ -436,10 +513,16 @@ contract InvoiceTracker is Ownable {
     /// @return netTerms
     /// @return numberHours
     /// @return amount
-    function getInvoice(address _userAddress, string memory _clientName, uint256 _invoiceNumber)
+    function getInvoice(
+        address _userAddress,
+        string memory _pwd,
+        string memory _clientName,
+        uint256 _invoiceNumber
+    )
         public
         view
         userOnly(_userAddress, _clientName)
+        isValidPassword(_userAddress, _pwd)
         returns (
             uint256 invoiceNumber,
             uint256 netTerms,
@@ -447,7 +530,7 @@ contract InvoiceTracker is Ownable {
             string memory amount
         )
     {
-        int256 _index = findInvoiceIndex(_userAddress, _clientName, _invoiceNumber);
+        int256 _index = findInvoiceIndex(_clientName, _invoiceNumber);
         if (_index != -1) {
             Invoice memory lInvoice = clientNameInvoiceMap[_clientName][uint256(
                 _index
@@ -464,33 +547,32 @@ contract InvoiceTracker is Ownable {
     /// @author Denis M. Putnam
     /// @notice Get an invoice
     /// @param _userAddress user address
+    /// @param _pwd plain text password
     /// @param _clientName name of the client
     /// @param _invoiceNumber invoice number being requested.
     /// @dev no other details
     /// @return invoiceNumber
     /// @return timesheetEndDate
     /// @return invoiceSentDate
-    /// @return due30DaysDate
-    /// @return due60DaysDate
-    /// @return due90DaysDate
-    /// @return due120DaysDate
     /// @return datePmtReceived
-    function getInvoiceDates(address _userAddress, string memory _clientName, uint256 _invoiceNumber)
+    function getInvoiceDates(
+        address _userAddress,
+        string memory _pwd,
+        string memory _clientName,
+        uint256 _invoiceNumber
+    )
         public
         view
         userOnly(_userAddress, _clientName)
+        isValidPassword(_userAddress, _pwd)
         returns (
             uint256 invoiceNumber,
             uint256 timesheetEndDate,
             uint256 invoiceSentDate,
-            uint256 due30DaysDate,
-            uint256 due60DaysDate,
-            uint256 due90DaysDate,
-            uint256 due120DaysDate,
             uint256 datePmtReceived
         )
     {
-        int256 _index = findInvoiceIndex(_userAddress, _clientName, _invoiceNumber);
+        int256 _index = findInvoiceIndex(_clientName, _invoiceNumber);
         if (_index != -1) {
             Invoice memory lInvoice = clientNameInvoiceMap[_clientName][uint256(
                 _index
@@ -499,11 +581,52 @@ contract InvoiceTracker is Ownable {
                 lInvoice.invoiceNumber,
                 lInvoice.timesheetEndDate,
                 lInvoice.invoiceSentDate,
+                lInvoice.datePmtReceived
+            );
+        }
+    }
+
+    /// @author Denis M. Putnam
+    /// @notice Get an invoice
+    /// @param _userAddress user address
+    /// @param _pwd plain text password
+    /// @param _clientName name of the client
+    /// @param _invoiceNumber invoice number being requested.
+    /// @dev no other details
+    /// @return invoiceNumber
+    /// @return due30DaysDate
+    /// @return due60DaysDate
+    /// @return due90DaysDate
+    /// @return due120DaysDate
+    function getInvoiceDueDates(
+        address _userAddress,
+        string memory _pwd,
+        string memory _clientName,
+        uint256 _invoiceNumber
+    )
+        public
+        view
+        userOnly(_userAddress, _clientName)
+        isValidPassword(_userAddress, _pwd)
+        returns (
+            uint256 invoiceNumber,
+            uint256 due30DaysDate,
+            uint256 due60DaysDate,
+            uint256 due90DaysDate,
+            uint256 due120DaysDate
+        )
+    {
+        int256 _index = findInvoiceIndex(_clientName, _invoiceNumber);
+        if (_index != -1) {
+            Invoice memory lInvoice = clientNameInvoiceMap[_clientName][uint256(
+                _index
+            )];
+            return (
+                lInvoice.invoiceNumber,
                 lInvoice.due30DaysDate,
                 lInvoice.due60DaysDate,
                 lInvoice.due90DaysDate,
-                lInvoice.due120DaysDate,
-                lInvoice.datePmtReceived
+                lInvoice.due120DaysDate
             );
         }
     }

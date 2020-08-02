@@ -7,7 +7,8 @@ require('@openzeppelin/test-helpers/configure')({
   provider: 'http://localhost:8555',
 });
 
-const { time, expectEvent } = require('@openzeppelin/test-helpers');
+//const { time, expectEvent } = require('@openzeppelin/test-helpers');
+// const { assert } = require("console");
 
 contract("InvoiceTracker", async accounts => {
 
@@ -45,7 +46,7 @@ contract("InvoiceTracker", async accounts => {
     count = await addInvoice(2);
     assert.equal(count, 2);
     //const result = await debug(invoiceTracker.getInvoiceNumbers("test"));
-    const result = await invoiceTracker.getInvoiceNumbers("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","test");
+    const result = await invoiceTracker.getInvoiceNumbers("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","password","test");
     console.log("GET INVOICE NUMBERS: invoice numbers=" + result);
   });
 
@@ -53,22 +54,24 @@ contract("InvoiceTracker", async accounts => {
     let count = await addInvoice(1);
     assert.equal(count, 1);
     //const result = await debug(invoiceTracker.getInvoice("test", 1));
-    let result = await invoiceTracker.getInvoice("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","test", 1);
+    let result = await invoiceTracker.getInvoice("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","password", "test", 1);
     console.log("GET INVOICE");
     console.log("invoice number=" + result.invoiceNumber);
     console.log("invoice netTerms=" + result.netTerms);
     console.log("invoice amount=" + result.amount);
     assert.equal(result.invoiceNumber, 1);
     assert.equal(result.netTerms, 30);
-    result = await invoiceTracker.getInvoiceDates("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","test", 1);
+    result = await invoiceTracker.getInvoiceDates("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","password", "test", 1);
     assert.equal(result.invoiceNumber, 1);
     console.log("invoice timesheetEndDate=" + result.timesheetEndDate);
     console.log("invoice invoiceSentDate=" + result.invoiceSentDate);
+    console.log("invoice invoicePmtDate=" + result.datePmtReceived);
+    result = await invoiceTracker.getInvoiceDueDates("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","password", "test", 1);
     console.log("invoice due30DaysDate=" + result.due30DaysDate);
     console.log("invoice due60DaysDate=" + result.due60DaysDate);
     console.log("invoice due90DaysDate=" + result.due90DaysDate);
     console.log("invoice due120DaysDate=" + result.due120DaysDate);
-    console.log("invoice invoicePmtDate=" + result.datePmtReceived);
+    assert.equal(result.invoiceNumber, 1);
   });
 
   it('javascript test update invoice', async () => {
@@ -77,18 +80,19 @@ contract("InvoiceTracker", async accounts => {
     //const result = await debug(invoiceTracker.getInvoice("test", 1));
     const now = Math.floor((new Date()).getTime() / 1000) + 100;
     console.log("UPDATE INVOICE");
-    let result = await invoiceTracker.updateInvoice("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","test", 1, now);
+    let result = await invoiceTracker.updateInvoice("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","password","test", 1, now);
     truffleAssert.prettyPrintEmittedEvents(result);
-    result = await invoiceTracker.getInvoiceDates("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","test", 1);
+    result = await invoiceTracker.getInvoiceDates("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","password","test", 1);
+    assert.equal(result.invoiceNumber, 1);
+    assert.equal(result.datePmtReceived, now);
     console.log("updated invoice number=" + result.invoiceNumber);
     console.log("updated invoice invoicePmtDate=" + result.datePmtReceived);
     console.log("updated now=" + now);
-    assert.equal(result.datePmtReceived, now);
   });
 
   it('javascript test get client', async () => {
     console.log("GET CLIENT BY INDEX");
-    let result = await invoiceTracker.getClientByIndex("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3",0);
+    let result = await invoiceTracker.getClientByIndex("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","password",0);
     console.log('result=',result);
     //truffleAssert.prettyPrintEmittedEvents(result);
     assert.equal(result.name, 'test');
@@ -124,6 +128,28 @@ contract("InvoiceTracker", async accounts => {
     assert.equal(result, 'user1');
   });
 
+  it('javascript test get user by index', async () => {
+    console.log("GET USER BY INDEX");
+    let result = await invoiceTracker.getUserAddressByIndex(0);
+    //truffleAssert.prettyPrintEmittedEvents(result);
+    console.log('result=',result);
+    assert.equal(result, '0x9769862B4e59e0F23F495C3c21F4c9a6def307F3');
+  });
+
+  it('javascript test duplicate user', async () => {
+    console.log("ADD DUPLICTE USER");
+    let userAccountAddress = "0x9769862B4e59e0F23F495C3c21F4c9a6def307F3";
+    let userName = "user1";
+    let userPwd = "password";
+    try {
+      const result = await invoiceTracker.addUser(userAccountAddress, userName, userPwd);
+      console.log(result);
+    } catch (err) {
+      console.log(err.reason);
+      assert.equal(err.reason,"User already exists");
+    }
+  });
+
   async function addInvoice(_invoiceNumber) {
     const now = Math.floor((new Date()).getTime() / 1000);
     console.log("ADD INVOICE");
@@ -137,6 +163,7 @@ contract("InvoiceTracker", async accounts => {
     _dates[5] = now;
     const result = await invoiceTracker.addInvoice(
       "0x9769862B4e59e0F23F495C3c21F4c9a6def307F3",
+      "password",
       "test",
       _invoiceNumber,
       30,
@@ -157,7 +184,7 @@ contract("InvoiceTracker", async accounts => {
         event._amount === "2000.50"
         ;
     });
-    const count = await invoiceTracker.getInvoiceCount("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","test");
+    const count = await invoiceTracker.getInvoiceCount("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","password","test");
     console.log("Invoice count=" + count);
     return count;
   }

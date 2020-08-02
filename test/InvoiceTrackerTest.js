@@ -116,12 +116,24 @@ contract("InvoiceTracker", async accounts => {
     }
   });
 
-  it('javascript test get client', async () => {
+  it('javascript test get client by index', async () => {
     console.log("GET CLIENT BY INDEX");
     let result = await invoiceTracker.getClientByIndex("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3","password",0);
     console.log('result=',result);
     //truffleAssert.prettyPrintEmittedEvents(result);
     assert.equal(result.name, 'test');
+  });
+
+  it('javascript test duplicate client', async () => {
+    console.log("DUPLICATE CLIENT");
+    let clientID = "0x874390a3787ef36bcd255de00f47f2dc34f70d95";
+    let clientName = "test";
+    try {
+      const result = await invoiceTracker.addClient("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3", clientID, clientName);
+    } catch (err) {
+      console.log(err.reason);
+      assert.equal(err.reason,"Client already exists for the given user");
+    }
   });
 
   it('javascript test get user count', async () => {

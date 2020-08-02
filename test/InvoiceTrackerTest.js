@@ -2,13 +2,11 @@ const InvoiceTracker = artifacts.require("InvoiceTracker");
 const utils = require("./utils.js");
 const truffleAssert = require('truffle-assertions');
 
-
 require('@openzeppelin/test-helpers/configure')({
   provider: 'http://localhost:8555',
 });
 
 //const { time, expectEvent } = require('@openzeppelin/test-helpers');
-// const { assert } = require("console");
 
 contract("InvoiceTracker", async accounts => {
 
@@ -88,6 +86,34 @@ contract("InvoiceTracker", async accounts => {
     console.log("updated invoice number=" + result.invoiceNumber);
     console.log("updated invoice invoicePmtDate=" + result.datePmtReceived);
     console.log("updated now=" + now);
+  });
+
+  it('javascript test duplicate invoice', async () => {
+    let count = await addInvoice(1);
+    assert.equal(count, 1);
+    const now = Math.floor((new Date()).getTime() / 1000);
+    const _dates = [];
+    _dates[0] = now;
+    _dates[1] = now;
+    _dates[2] = now;
+    _dates[3] = now;
+    _dates[4] = now;
+    _dates[5] = now;
+    try {
+      const result = await invoiceTracker.addInvoice(
+        "0x9769862B4e59e0F23F495C3c21F4c9a6def307F3",
+        "password",
+        "test",
+        1,
+        30,
+        80,
+        "2000.50",
+        _dates
+      );
+    } catch (err) {
+      console.log(err.reason);
+      assert.equal(err.reason,"Duplicate invoice");
+    }
   });
 
   it('javascript test get client', async () => {

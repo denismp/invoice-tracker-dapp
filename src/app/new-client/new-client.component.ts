@@ -25,16 +25,18 @@ export class NewClientComponent {
     let address: string = this.addressForm.get('address').value;
     let name: string = this.addressForm.get('name').value;
     let error: boolean = false;
-    if (name === null) {
+    let rString: string = "";
+    if (name === "undefined") {
       error = true;
+      rString = "Please enter a client name."
     }
-    if (address === null) {
+    if (address === "undefined" || address.length !== 42) {
       error = true;
+      rString = "Please enter an wallet account address of length 42 starting with '0x'."
     }
 
-    let rString: string = "Thank you."
     if (error === true) {
-      rString = "The data you entered is invalid."
+      //rString = "The data you entered is invalid."
       alert(rString);
     } else {
       this.submitting = true;

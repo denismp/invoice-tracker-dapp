@@ -111,14 +111,19 @@ contract InvoiceTracker is Ownable {
     /// @author Denis M. Putnam
     /// @notice Add a client to this contract.
     /// @param _userAddress user address
+    /// @param _pwd plain text user password
     /// @param _clientID address of the wallet of the client.
     /// @param _name string with the client's name.  This needs to be unique
     /// @dev Add's a client to the clientMap and the clientNameAddressMap
     function addClient(
         address _userAddress,
+        string memory _pwd,
         address _clientID,
         string memory _name
-    ) public noDupClient(_userAddress, _clientID, _name) {
+    ) public
+        userOnly(_userAddress, _name)
+        isValidPassword(_userAddress, _pwd)
+        noDupClient(_userAddress, _clientID, _name) {
         clientMap[_name].clientID = _clientID;
         clientMap[_name].name = _name;
         clientMap[_name].flag = true;

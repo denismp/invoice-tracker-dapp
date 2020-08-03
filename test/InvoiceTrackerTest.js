@@ -13,15 +13,15 @@ contract("InvoiceTracker", async accounts => {
   let invoiceTracker;
   beforeEach(async () => {
     invoiceTracker = await InvoiceTracker.new();
-    let userAccountAddress = "0x9769862B4e59e0F23F495C3c21F4c9a6def307F3";
-    let userName = "user1";
-    let userPwd = "password";
+    const userAccountAddress = "0x9769862B4e59e0F23F495C3c21F4c9a6def307F3";
+    const userName = "user1";
+    const userPwd = "password";
     //let result = await debug(invoiceTracker.addUser(userAccountAddress, userName, userPwd));
     let result = await invoiceTracker.addUser(userAccountAddress, userName, userPwd);
     truffleAssert.prettyPrintEmittedEvents(result);
     let clientID = "0x874390a3787ef36bcd255de00f47f2dc34f70d95";
     let clientName = "test";
-    result = await invoiceTracker.addClient(userAccountAddress, clientID, clientName);
+    result = await invoiceTracker.addClient(userAccountAddress, userPwd, clientID, clientName);
     truffleAssert.prettyPrintEmittedEvents(result);
     truffleAssert.eventEmitted(result, 'addClientEvent', (event) => {
       console.log("event._clientID=" + event._clientID.toUpperCase());

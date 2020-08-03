@@ -19,7 +19,7 @@ export class UserComponent {
 
   submitting: boolean = false;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private web3Service: Web3Service) { }
+  constructor(private fb: FormBuilder, private userService: UserService) { }
 
   async onSubmit() {
     //let userAddress: string = this.userService.userAddress;
@@ -49,14 +49,17 @@ export class UserComponent {
       const user: User = await this.userService.getUser(address);
       if (user === null) {
         readSuccess = false;
+        this.userService.pwd = '';
       } else {
-        if (this.isValidPassword(user.ePwd, pwd)) {
+        if (await this.isValidPassword(user.ePwd, pwd) === false) {
           readSuccess = false;
           error = true;
+          this.userService.pwd = '';
           alert('You entered an invalid password')
         } else {
           readSuccess = true;
           this.userService.userAddress = address;
+          this.userService.pwd = pwd;
           console.log('UserComponent.onSubmit().getUser(): ' + address + ' is an existing user.');
         }
       }
@@ -67,6 +70,7 @@ export class UserComponent {
             this.submitting = false;
             console.log('UserComponent.onSubmit().createUser(): res: ', res);
             if (this.userService.success === true) {
+              this.userService.pwd = pwd;
               let myData: string = "transactionHash=" + res.transactionHash + " blockHash=" + res.blockHash + " blockNumber=" + res.blockNumber;
               alert('Successfully added ' + name + " " + myData);
             } else {
@@ -74,6 +78,7 @@ export class UserComponent {
             }
           })
           .catch(err => {
+            this.userService.pwd = '';
             this.submitting = false;
             console.log('UserComponent.onSubmit(): err: ', err);
             alert('Submit failed.');
@@ -82,9 +87,16 @@ export class UserComponent {
     }
   }
 
-  private isValidPassword(epwd: string, pwd: string): boolean {
-    //const encryptedMnemonic = CryptoJS.AES.encrypt(mnemonic, password).toString();
-    return true;
+  private async isValidPassword(epwd: string, pwd: string): Promise<boolean> {
+    console.log('UserComponent.isValidPassword(): epwd=', epwd);
+    console.log('UserComponent.isValidPassword(): pwd=', pwd);
+    const encryptedPwd: string = await this.userService.calcPassword(pwd);
+    console.log('UserComponent.isValidPassword().calPassword(): encryptedPwd=', encryptedPwd);
+    if (epwd === encryptedPwd) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   isValidHexString(str: string): boolean {

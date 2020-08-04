@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.6.6;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Password.sol";
+//import "./Owned.sol";
 
-contract Users is Password {
+contract Users is Ownable {
     /// @dev User struct
     struct User {
         string name;
@@ -31,7 +33,11 @@ contract Users is Password {
         _;
     }
 
-    function isPasswordValid(address _userAddress, string memory _pwd) public view returns (bool) {
+    function isPasswordValid(address _userAddress, string memory _pwd)
+        public
+        view
+        returns (bool)
+    {
         bytes32 epwd = keccak256(abi.encodePacked(_pwd));
         return (usersMap[_userAddress].ePwd == epwd);
     }

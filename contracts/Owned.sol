@@ -11,7 +11,7 @@ contract Owned {
   /// @author Denis M. Putnam
   /// @notice This modifier ensures that only the owner can call the funtion.
   /// @dev No other details
-  modifier ownerOnly() {
+  modifier onlyOwner() {
       require(msg.sender == owner,"Only the owner of the contract can execute this function.");
       _;
   }
@@ -35,7 +35,7 @@ contract Owned {
   /// @notice Change the current owner to the new owner.
   /// @dev No other details.
   /// @param newOwner new address payable owner.
-  function changeOwner(address payable newOwner) public ownerOnly() {
+  function changeOwner(address payable newOwner) public onlyOwner() {
       owner = newOwner;
   }
 }

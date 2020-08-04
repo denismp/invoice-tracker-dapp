@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.6.6;
 
+// import "./Invoices.sol";
+// import "./Owned.sol";
 import "./Users.sol";
 
 contract Clients is Users {
@@ -11,6 +13,9 @@ contract Clients is Users {
         bool flag;
     }
 
+    /**
+     * Clients has a Invoices
+     */
     /// @dev map the name of the client to the Client struct
     mapping(string => Client) public clientMap;
     /// @dev map the name of the client to the client address
@@ -23,6 +28,9 @@ contract Clients is Users {
     mapping(address => int256) public userToNumClientsMap;
     /// @dev map the client name to the invoice numbers.
     mapping(string => uint256[]) public clientNameInvoiceNumMap;
+
+    /// @dev map the clientID address to his invoices
+    //mapping(address => Invoice.Invoice[]) public clientIDInvoiceMap;
 
     event addClientEvent(address _userAddress, address _clientID, string _name);
     event duplicateClientEvent(address _userAddress, string _clientID);
@@ -66,12 +74,19 @@ contract Clients is Users {
     }
 
     function getClientNameFromMap(string memory name)
-        public view returns (address clientAddress)
+        public
+        view
+        returns (address clientAddress)
     {
         return clientMap[name].clientID;
     }
 
-    function getClientIDFromIDMap(address userAddress) public view returns (address clientID) {
+    function getClientIDFromIDMap(address userAddress)
+        public
+        view
+        onlyOwner()
+        returns (address clientID)
+    {
         return userClientIDMap[userAddress];
     }
 
@@ -98,6 +113,9 @@ contract Clients is Users {
         clientMap[_name].flag = true;
 
         // clientNameArray.push(_name);
+        if (userClientIDMap[_userAddress] == address(0x0)) {
+          userClientIDMap[_userAddress] = _clientID;
+        }
 
         clientNameAddressMap[_name] = _clientID;
         //clientNameInvoiceCountMap[_name] = 0;
@@ -124,7 +142,10 @@ contract Clients is Users {
         view
         userOnly(_userAddress, _name)
         isValidPassword(_userAddress, _pwd)
-        returns (string memory name, address clientID)
+        returns (
+            string memory name,
+            address clientID
+        )
     {
         string memory lname = clientMap[_name].name;
         address lclientID = clientMap[_name].clientID;
@@ -133,19 +154,23 @@ contract Clients is Users {
 
     /// @author Denis M. Putnam
     /// @notice get the client by index number.
+    /// @param _userAddress user account address.
     /// @param _index index of client name
     /// @dev no further info
     /// @return name
     /// @return clientID
     function getClientByIndex(
         address _userAddress,
-        string memory _pwd,
+        //string memory _pwd,
         uint256 _index
     )
         public
         view
-        isValidPassword(_userAddress, _pwd)
-        returns (string memory name, address clientID)
+        onlyOwner()
+        returns (
+            string memory name,
+            address clientID
+        )
     {
         Client memory _client = usersToClientsMap[_userAddress][_index];
         string memory lname = _client.name;

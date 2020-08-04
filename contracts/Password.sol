@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.6.6;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+//import "@openzeppelin/contracts/access/Ownable.sol";
+//import "./Owned.sol";
 
 /// @title Passord contract
 /// @author Denis M. Putnam
 /// @notice This contract calculate the encrypted password.
 /// @dev Use at your own risk.
-contract Password is Ownable {
+contract Password {
     function calcPassword(string memory _pwd)
         public
         pure

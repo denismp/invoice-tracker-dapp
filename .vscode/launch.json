@@ -4,21 +4,21 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-    {
-      "type": "firefox",
-      "request": "launch",
-      "reAttach": true,
-      "name": "Launch localhost",
-      "url": "http://localhost:4200/index.html",
-      "webRoot": "${workspaceFolder}"
-    },
-    {
-      "type": "chrome",
-      "request": "launch",
-      "name": "Launch Chrome against localhost",
-      "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}"
-    },
+    // {
+    //   "type": "firefox",
+    //   "request": "launch",
+    //   "reAttach": true,
+    //   "name": "Launch localhost",
+    //   "url": "http://localhost:4200/index.html",
+    //   "webRoot": "${workspaceFolder}"
+    // },
+    // {
+    //   "type": "chrome",
+    //   "request": "launch",
+    //   "name": "Launch Chrome against localhost",
+    //   "url": "http://localhost:4200",
+    //   "webRoot": "${workspaceFolder}"
+    // },
     {
       "type": "node",
       "request": "launch",
@@ -28,7 +28,7 @@
       ],
       "program": "/Users/denisputnam/.nvm/versions/node/v12.16.1/lib/node_modules/truffle/build/cli.bundled.js",
       "args": [
-        "test"
+        "test/InvoicesTest.js"
       ],
       "cwd": "${workspaceRoot}",
       "outFiles": [

@@ -95,6 +95,7 @@ truffle development
 
 # Run remixd
 remixd -s /Users/denisputnam/git/invoice-tracker-dapp --remix-ide http://remix.ethereum.org
+`import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol"`
 
 http://remix.ethereum.org/#optimize=false&evmVersion=null&version=soljson-v0.6.6+commit.6c089d02.js
 
@@ -107,6 +108,7 @@ npm install -g ganache-cli
 ## Run ganache-cli
 ganache-cli
 ganache-cli -l 8000000
+ganache-cli -l 0x1fffffffffffff
 
 
 ## Generate documentation

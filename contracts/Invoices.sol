@@ -1,15 +1,27 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.6.6;
 
-import "./Clients.sol";
-import "./Users.sol";
-import "./Password.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @title Invoices contract
 /// @author Denis M. Putnam
 /// @notice This contract handles invoices for payment
 /// @dev Use at your own risk.
-contract Invoices is Password {
+contract Invoices is Ownable {
+    /// @dev User struct
+    struct User {
+        string name;
+        bytes32 ePwd;
+        bool flag;
+    }
+
+    /// @dev Client struct
+    struct Client {
+        address clientID;
+        string name;
+        bool flag;
+    }
+
     /// @dev Invoice struct
     struct Invoice {
         uint256 invoiceNumber;
@@ -27,22 +39,24 @@ contract Invoices is Password {
     Invoice newInvoice;
 
     /// @dev map the name of the client to invoices. this isa one to many mapping.
-    mapping(string => Invoice[]) private clientNameInvoiceMap;
+    mapping(string => Invoice[]) private clientNameInvoicesMap;
     /// @dev map the client name to the invoice numbers.
     mapping(string => uint256[]) private clientNameInvoiceNumMap;
     /// @dev map the name of the client to an invoice count
     mapping(string => uint256) private clientNameInvoiceCountMap;
+    /// @dev map the user address to the client ID
+    mapping(address => address) public userClientIDMap;
+    /// @dev map the name of the client to the Client struct
+    mapping(string => Client) public clientMap;
+    /// @dev map the user address to the User struct
+    mapping(address => User) public usersMap;
+    /// @dev user count
+    uint256 userCount = 0;
+    /// @dev map the user index to the user address
+    mapping(uint256 => address) userIndexMap;
 
-    Users users;
-    Clients clients;
-
-    /// @author Denis M. Putnam
-    /// @notice The constructor for this contract
-    /// @dev no other details
-    constructor() public payable Ownable() {
-      users = new Users();
-      clients = new Clients();
-    }
+    // Users users;
+    // Clients clients;
 
     event duplicateInvoiceEvent(string _clientName, uint256 _invoiceNumber);
 
@@ -61,12 +75,17 @@ contract Invoices is Password {
             // }
             if (
                 _invoiceNumber ==
-                clientNameInvoiceMap[_clientName][i].invoiceNumber
+                clientNameInvoicesMap[_clientName][i].invoiceNumber
             ) {
                 return false;
             }
         }
         return true;
+    }
+
+    modifier noDupUser(address _address) {
+        require(usersMap[_address].flag == false, "User already exists");
+        _;
     }
 
     modifier noDupInvoice(string memory _clientName, uint256 _invoiceNumber) {
@@ -75,6 +94,26 @@ contract Invoices is Password {
             emit duplicateInvoiceEvent(_clientName, _invoiceNumber);
         }
         require(flag, "Duplicate invoice");
+        _;
+    }
+
+    modifier userOnly(address _userAddress, string memory _clientName) {
+        address _clientID = clientMap[_clientName].clientID;
+        require(
+            userClientIDMap[_userAddress] == _clientID,
+            "User and client are not related"
+        );
+        _;
+    }
+
+    modifier isValidPassword(address _userAddress, string memory _pwd) {
+        bytes32 epwd = keccak256(abi.encodePacked(_pwd));
+        require(usersMap[_userAddress].ePwd == epwd, "Invalid password given");
+        _;
+    }
+
+    modifier isInvoiceNumber(uint256 _invoiceNumber) {
+        require(_invoiceNumber > 0, "Invoice number must be greater than 0");
         _;
     }
 
@@ -99,25 +138,24 @@ contract Invoices is Password {
         uint256 _datePmtReceived
     );
 
-    modifier userOnly(address _userAddress, string memory _clientName) {
-        //address _clientID = clientMap[_clientName].clientID;
-        address _clientID = clients.getClientNameFromMap(_clientName);
-        require(
-            // clients.userClientIDMap[_userAddress] == _clientID,
-            clients.getClientIDFromIDMap(_userAddress) == _clientID,
-            "User and client are not related"
-        );
-        _;
-    }
+    event addUserEvent(address payable _address, string _name, string _pwd);
 
-    modifier isValidPassword(address _userAddress, string memory _pwd) {
-        //bytes32 epwd = keccak256(abi.encodePacked(_pwd));
-        require(
-            //users.usersMap[_userAddress].ePwd == epwd,
-            users.isPasswordValid(_userAddress, _pwd),
-            "Invalid password given"
-        );
-        _;
+    /// @author Denis M. Putnam
+    /// @notice Add a user
+    /// @param _address wallet account address for the user
+    /// @param _name user name
+    /// @param _pwd unencrypted password
+    /// @dev no other details.
+    function addUser(
+        address payable _address,
+        string memory _name,
+        string memory _pwd
+    ) public noDupUser(_address) {
+        bytes32 epwd = keccak256(abi.encodePacked(_pwd));
+        usersMap[_address] = User(_name, epwd, true);
+        userIndexMap[userCount] = _address;
+        userCount += 1;
+        emit addUserEvent(_address, _name, _pwd);
     }
 
     /// @author Denis M. Putnam
@@ -146,8 +184,6 @@ contract Invoices is Password {
         isValidPassword(_userAddress, _pwd)
         noDupInvoice(_clientName, _invoiceNumber)
     {
-        //Invoice storage newInvoice;
-
         newInvoice.invoiceNumber = _invoiceNumber;
         newInvoice.netTerms = _netTerms;
         newInvoice.numberHours = _numberHours;
@@ -159,7 +195,7 @@ contract Invoices is Password {
         newInvoice.due90DaysDate = _dates[4]; // due90DaysDate
         newInvoice.due120DaysDate = _dates[5]; // due120DaysDate
 
-        clientNameInvoiceMap[_clientName].push(newInvoice);
+        clientNameInvoicesMap[_clientName].push(newInvoice);
         clientNameInvoiceNumMap[_clientName].push(_invoiceNumber);
 
         incremmentInvoiceCount(_clientName);
@@ -203,7 +239,9 @@ contract Invoices is Password {
         view
         userOnly(_userAddress, _clientName)
         isValidPassword(_userAddress, _pwd)
-        returns (uint256 count)
+        returns (
+            uint256 count
+        )
     {
         count = clientNameInvoiceCountMap[_clientName];
         // count = getInvoiceCount(_clientName);
@@ -225,14 +263,11 @@ contract Invoices is Password {
         view
         userOnly(_userAddress, _clientName)
         isValidPassword(_userAddress, _pwd)
-        returns (uint256[] memory)
+        returns (
+            uint256[] memory
+        )
     {
         return clientNameInvoiceNumMap[_clientName];
-    }
-
-    modifier isInvoiceNumber(uint256 _invoiceNumber) {
-        require(_invoiceNumber > 0, "Invoice number must be greater than 0");
-        _;
     }
 
     function findInvoiceIndex(string memory _clientName, uint256 _invoiceNumber)
@@ -246,10 +281,10 @@ contract Invoices is Password {
             i < int256(clientNameInvoiceCountMap[_clientName]);
             i++
         ) {
-            //clientNameInvoiceMap
+            //clientNameInvoicesMap
             if (
                 _invoiceNumber ==
-                clientNameInvoiceMap[_clientName][uint256(i)].invoiceNumber
+                clientNameInvoicesMap[_clientName][uint256(i)].invoiceNumber
             ) {
                 return i;
             }
@@ -278,16 +313,14 @@ contract Invoices is Password {
     {
         int256 _index = findInvoiceIndex(_clientName, _invoiceNumber);
         if (_index != -1) {
-            Invoice memory lInvoice = clientNameInvoiceMap[_clientName][uint256(
-                _index
-            )];
-            lInvoice.datePmtReceived = _invoicePmtDate;
-            clientNameInvoiceMap[_clientName][uint256(_index)] = lInvoice;
-            emit updateInvoiceEvent(
-                _clientName,
-                _invoiceNumber,
-                _invoicePmtDate
-            );
+          Invoice memory lInvoice = clientNameInvoicesMap[_clientName][uint256(_index)];
+          lInvoice.datePmtReceived = _invoicePmtDate;
+          clientNameInvoicesMap[_clientName][uint256(_index)] = lInvoice;
+          emit updateInvoiceEvent(
+              _clientName,
+              _invoiceNumber,
+              _invoicePmtDate
+          );
         }
     }
 
@@ -321,9 +354,7 @@ contract Invoices is Password {
     {
         int256 _index = findInvoiceIndex(_clientName, _invoiceNumber);
         if (_index != -1) {
-            Invoice memory lInvoice = clientNameInvoiceMap[_clientName][uint256(
-                _index
-            )];
+            Invoice memory lInvoice = clientNameInvoicesMap[_clientName][uint256(_index)];
             return (
                 lInvoice.invoiceNumber,
                 lInvoice.netTerms,
@@ -363,15 +394,13 @@ contract Invoices is Password {
     {
         int256 _index = findInvoiceIndex(_clientName, _invoiceNumber);
         if (_index != -1) {
-            Invoice memory lInvoice = clientNameInvoiceMap[_clientName][uint256(
-                _index
-            )];
-            return (
+          Invoice memory lInvoice = clientNameInvoicesMap[_clientName][uint256(_index)];
+          return (
                 lInvoice.invoiceNumber,
                 lInvoice.timesheetEndDate,
                 lInvoice.invoiceSentDate,
                 lInvoice.datePmtReceived
-            );
+          );
         }
     }
 
@@ -407,16 +436,14 @@ contract Invoices is Password {
     {
         int256 _index = findInvoiceIndex(_clientName, _invoiceNumber);
         if (_index != -1) {
-            Invoice memory lInvoice = clientNameInvoiceMap[_clientName][uint256(
-                _index
-            )];
-            return (
-                lInvoice.invoiceNumber,
-                lInvoice.due30DaysDate,
-                lInvoice.due60DaysDate,
-                lInvoice.due90DaysDate,
-                lInvoice.due120DaysDate
-            );
+          Invoice memory lInvoice = clientNameInvoicesMap[_clientName][uint256(_index)];
+          return (
+              lInvoice.invoiceNumber,
+              lInvoice.due30DaysDate,
+              lInvoice.due60DaysDate,
+              lInvoice.due90DaysDate,
+              lInvoice.due120DaysDate
+          );
         }
     }
 }

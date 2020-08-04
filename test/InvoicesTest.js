@@ -22,17 +22,6 @@ contract("Invoices", async accounts => {
     //let result = await debug(invoices.addUser(userAccountAddress, userName, userPwd));
     let result = await invoices.addUser(userAccountAddress, userName, userPwd);
     truffleAssert.prettyPrintEmittedEvents(result);
-    // let clientID = "0x874390a3787ef36bcd255de00f47f2dc34f70d95";
-    // let clientName = "test";
-    // result = await clients.addClient(userAccountAddress, userPwd, clientID, clientName);
-    // truffleAssert.prettyPrintEmittedEvents(result);
-    // truffleAssert.eventEmitted(result, 'addClientEvent', (event) => {
-    //   console.log("event._clientID=" + event._clientID.toUpperCase());
-    //   console.log("       clientID=" + clientID.toUpperCase());
-    //   const myequal = event._clientID.toUpperCase() === clientID.toUpperCase();
-    //   console.log("DEBUG:" + myequal);
-    //   return event._clientID.toUpperCase() == clientID.toUpperCase() && event._name === "test";
-    // });
   });
 
   it('javascript test add an invoice', async () => {

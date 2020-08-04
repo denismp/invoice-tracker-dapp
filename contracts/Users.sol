@@ -2,8 +2,6 @@
 pragma solidity ^0.6.6;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./Password.sol";
-//import "./Owned.sol";
 
 contract Users is Ownable {
     /// @dev User struct

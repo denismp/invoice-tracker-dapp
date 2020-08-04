@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.6.6;
 
-// import "./Invoices.sol";
-// import "./Owned.sol";
 import "./Users.sol";
 
 contract Clients is Users {

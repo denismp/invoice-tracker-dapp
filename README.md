@@ -106,6 +106,7 @@ npm install -g ganache-cli
 
 ## Run ganache-cli
 ganache-cli
+ganache-cli -l 8000000
 
 
 ## Generate documentation

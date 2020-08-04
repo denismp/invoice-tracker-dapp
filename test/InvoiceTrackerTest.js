@@ -150,7 +150,7 @@ contract("InvoiceTracker", async accounts => {
     assert.equal(result, '0x9769862B4e59e0F23F495C3c21F4c9a6def307F3');
   });
 
-  it('javascript test get user', async () => {
+  it.only('javascript test get user', async () => {
     console.log("GET USER");
     let result = await invoiceTracker.getUser("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3");
     //truffleAssert.prettyPrintEmittedEvents(result);

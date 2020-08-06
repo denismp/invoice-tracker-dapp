@@ -93,6 +93,10 @@ migrations/ directories and their contents.  This is too set up local truffle te
 # Run truffle
 truffle development
 
+## Useful truffle commands
+truffle migrate --reset network development
+truffle migrate --reset network ropsten
+
 # Run remixd
 remixd -s /Users/denisputnam/git/invoice-tracker-dapp --remix-ide http://remix.ethereum.org
 `import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol"`

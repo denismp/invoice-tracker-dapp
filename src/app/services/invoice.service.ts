@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Web3Service } from './web3.service';
 import { InvoiceRecordItem } from '../invoice-list/invoice-record-item.interface';
+import { Web3InvoicesService } from './web3-invoices.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvoiceService {
   success: boolean = false;
-  constructor(private web3Service: Web3Service) { }
+  constructor(private web3InvoicesService: Web3InvoicesService) { }
 
   public async addInvoice(
     userAddress: string,
@@ -36,10 +36,10 @@ export class InvoiceService {
       console.log('due60DaysDate=' + due60DaysDate);
       console.log('due90DaysDate=' + due90DaysDate);
       console.log('due120DaysDate=' + due120DaysDate);
-      //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
-      let owner: string = this.web3Service.owner;
+      //let owner: string = await this.web3InvoicesService.contract.methods.getCurrentOwner().call();
+      let owner: string = this.web3InvoicesService.owner;
       this.success = true;
-      return await this.web3Service.contract.methods.addInvoice(
+      return await this.web3InvoicesService.contract.methods.addInvoice(
         userAddress,
         clientName,
         invoiceNumber,
@@ -65,10 +65,10 @@ export class InvoiceService {
       console.log('clientName=' + clientName);
       console.log('invoiceNumber=' + invoiceNumber);
       console.log('datePmtReceived=' + datePmtReceived);
-      //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
-      let owner: string = this.web3Service.owner;
+      //let owner: string = await this.web3InvoicesService.contract.methods.getCurrentOwner().call();
+      let owner: string = this.web3InvoicesService.owner;
       this.success = true;
-      return await this.web3Service.contract.methods.updateInvoice(userAddress, clientName, invoiceNumber, datePmtReceived).send({ from: userAddress, gas:3000000 });
+      return await this.web3InvoicesService.contract.methods.updateInvoice(userAddress, clientName, invoiceNumber, datePmtReceived).send({ from: userAddress, gas:3000000 });
     } catch (err) {
       this.success = false;
       console.log('InvoiceService.updateInvoice(): failed:', err)
@@ -79,12 +79,12 @@ export class InvoiceService {
   public async getInvoiceNumbers(userAddress: string, clientName: string): Promise<number[]> {
     try {
       console.log('InvoiceService.getInvoiceNumbers(): clientName=' + clientName);
-      //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
-      let owner: string = this.web3Service.owner;
-      const x =  await this.web3Service.contract.methods.getInvoiceNumbers(userAddress, clientName).call({from: userAddress, gas:3000000});
+      //let owner: string = await this.web3InvoicesService.contract.methods.getCurrentOwner().call();
+      let owner: string = this.web3InvoicesService.owner;
+      const x =  await this.web3InvoicesService.contract.methods.getInvoiceNumbers(userAddress, clientName).call({from: userAddress, gas:3000000});
       console.log('InvoiceService.getInvoiceNumbers(): DEBUG x=' + x);
       return x;
-      //return await this.web3Service.contract.methods.getInvoiceNumbers(clientName).call();
+      //return await this.web3InvoicesService.contract.methods.getInvoiceNumbers(clientName).call();
     } catch (err) {
       console.log('InvoiceService.getInvoiceNumbers(): failed:', err)
       alert("InvoiceService.getInvoiceNumbers(): failed:" + err);
@@ -96,9 +96,9 @@ export class InvoiceService {
     try {
       console.log('InvoiceService.getInvoice(): clientName=' + clientName);
       console.log('InvoiceService.getInvoice(): invoiceNumber=' + invoiceNumber);
-      //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
-      let owner: string = this.web3Service.owner;
-      return await this.web3Service.contract.methods.getInvoice(userAddress, clientName, invoiceNumber).call({from: owner, gas:3000000});
+      //let owner: string = await this.web3InvoicesService.contract.methods.getCurrentOwner().call();
+      let owner: string = this.web3InvoicesService.owner;
+      return await this.web3InvoicesService.contract.methods.getInvoice(userAddress, clientName, invoiceNumber).call({from: owner, gas:3000000});
     } catch (err) {
       console.log('InvoiceService.getInvoice(): failed:', err);
       alert("InvoiceService.getInvoice(): failed:" + err);

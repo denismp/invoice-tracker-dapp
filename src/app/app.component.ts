@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Web3Service } from './services/web3.service';
-import { Web3PasswordService } from './services/web3-password.service';
+import { Web3ClientsService } from './services/web3-clients.service';
+import { Web3InvoicesService } from './services/web3-invoices.service';
 
 @Component({
   selector: 'app-root',
@@ -11,31 +11,31 @@ import { Web3PasswordService } from './services/web3-password.service';
 export class AppComponent {
   title = 'invoice-dapp';
   active = 1;
-  public isWeb3Ready = false;
-  public isPasswordWeb3Ready = false;
+  public isWeb3InvoicesReady = false;
+  public isClientsWeb3Ready = false;
   private subscription = new Subscription()
 
-  constructor(private web3Service: Web3Service, private web3PasswordService: Web3PasswordService) {
-    this.listenToIsWeb3Ready();
-    this.listenToIsPasswordWeb3Ready();
+  constructor(private web3InvoicesService: Web3InvoicesService, private web3ClientsService: Web3ClientsService) {
+    this.listenToIsWeb3InvoicesReady();
+    this.listenToIsClientsWeb3Ready();
   }
 
-  private listenToIsWeb3Ready(): void {
-    this.web3Service.isWeb3Ready$.subscribe(async isReady => {
+  private listenToIsWeb3InvoicesReady(): void {
+    this.web3InvoicesService.isWeb3InvoicesReady$.subscribe(async isReady => {
       if (isReady) {
-        this.isWeb3Ready = isReady;
-        const accounts = await this.web3Service.web3.eth.getAccounts();
-        this.web3Service.owner = accounts[0];
+        this.isWeb3InvoicesReady = isReady;
+        const accounts = await this.web3InvoicesService.web3.eth.getAccounts();
+        this.web3InvoicesService.owner = accounts[0];
       }
     });
   }
 
-  private listenToIsPasswordWeb3Ready(): void {
-    this.web3PasswordService.isWeb3Ready$.subscribe(async isReady => {
+  private listenToIsClientsWeb3Ready(): void {
+    this.web3ClientsService.isWeb3ClientsReady$.subscribe(async isReady => {
       if (isReady) {
-        this.isPasswordWeb3Ready = isReady;
-        const accounts = await this.web3PasswordService.web3.eth.getAccounts();
-        this.web3PasswordService.owner = accounts[0];
+        this.isClientsWeb3Ready = isReady;
+        const accounts = await this.web3ClientsService.web3.eth.getAccounts();
+        this.web3ClientsService.owner = accounts[0];
       }
     });
   }

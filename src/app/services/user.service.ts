@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Web3Service } from './web3.service';
 import { User } from '../user/user.interface';
-import { Web3PasswordService } from './web3-password.service';
+import { Web3ClientsService } from './web3-clients.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +11,15 @@ export class UserService {
   userAddress: string;
   pwd: string = '';
 
-  constructor(private web3Service: Web3Service, private web3PasswordService: Web3PasswordService) { }
+  constructor(private web3ClientsService: Web3ClientsService) { }
 
   public async createUser(userAddress: string, userName: string, password: string): Promise<any> {
     console.log("UserService.createUser(): DEBUG");
     try {
-      let owner: string = this.web3Service.owner;
+      let owner: string = this.web3ClientsService.owner;
       this.success = true;
       this.userAddress = userAddress;
-      return await this.web3Service.contract.methods.addUser(userAddress, userName, password).send({ from: owner, gas: 3000000 });
+      return await this.web3ClientsService.contract.methods.addUser(userAddress, userName, password).send({ from: owner, gas: 3000000 });
     } catch (err) {
       this.success = false;
       console.log('UserService.createUser(): failed:', err);
@@ -30,10 +30,10 @@ export class UserService {
 
   public async getUserName(userAddress: string): Promise<string> {
     try {
-      //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
-      let owner: string = this.web3Service.owner;
+      //let owner: string = await this.web3ClientsService.contract.methods.getCurrentOwner().call();
+      let owner: string = this.web3ClientsService.owner;
       this.success = true;
-      return await this.web3Service.contract.methods.getUserName(userAddress).call({ from: userAddress, gas: 3000000 });
+      return await this.web3ClientsService.contract.methods.getUserName(userAddress).call({ from: userAddress, gas: 3000000 });
     } catch (err) {
       this.success = false;
       console.log('UserService.getUserName(): failed:', err);
@@ -44,10 +44,10 @@ export class UserService {
   public async getUser(userAddress: string): Promise<User> {
     console.log("UserService.getUser(): DEBUG");
     try {
-      //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
-      let owner: string = this.web3Service.owner;
+      //let owner: string = await this.web3ClientsService.contract.methods.getCurrentOwner().call();
+      let owner: string = this.web3ClientsService.owner;
       this.success = true;
-      return await this.web3Service.contract.methods.getUser(userAddress).call({ from: owner, gas: 3000000 });
+      return await this.web3ClientsService.contract.methods.getUser(userAddress).call({ from: owner, gas: 3000000 });
     } catch (err) {
       this.success = false;
       console.log('UserService.getUser(): failed:', err);
@@ -59,8 +59,8 @@ export class UserService {
     console.log("UserService.calcPassword(): DEBUG");
     try {
       this.success = true;
-      let owner: string = this.web3PasswordService.owner;
-      return await this.web3PasswordService.contract.methods.calcPassword(password).call({ from: owner, gas: 3000000 });
+      let owner: string = this.web3ClientsService.owner;
+      return await this.web3ClientsService.contract.methods.calcPassword(password).call({ from: owner, gas: 3000000 });
     } catch (err) {
       this.success = false;
       console.log('UserService.calcPassword(): failed:', err);

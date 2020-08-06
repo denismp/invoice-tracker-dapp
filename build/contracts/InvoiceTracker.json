@@ -266,7 +266,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -315,7 +316,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -344,7 +346,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -393,7 +396,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -447,7 +451,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -476,7 +481,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -500,7 +506,8 @@
         }
       ],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [],
@@ -513,7 +520,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -585,7 +593,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -614,7 +623,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.6.6+commit.6c089d02\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"_clientName\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_invoiceNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_netTerms\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_numberHours\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"_amount\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_timesheetEndDate\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_invoiceSentDate\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_due30DaysDate\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_due60DaysDate\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_due90DaysDate\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_due120DaysDate\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_datePmtReceived\",\"type\":\"uint256\"}],\"name\":\"addInvoiceEvent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address payable\",\"name\":\"_address\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"_pwd\",\"type\":\"string\"}],\"name\":\"addUserEvent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"_clientName\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_invoiceNumber\",\"type\":\"uint256\"}],\"name\":\"duplicateInvoiceEvent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"_clientName\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_invoiceNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_datePmtReceived\",\"type\":\"uint256\"}],\"name\":\"updateInvoiceEvent\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_userAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_pwd\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_clientName\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_invoiceNumber\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_netTerms\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_numberHours\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"_amount\",\"type\":\"string\"},{\"internalType\":\"uint256[]\",\"name\":\"_dates\",\"type\":\"uint256[]\"}],\"name\":\"addInvoice\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"_address\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_pwd\",\"type\":\"string\"}],\"name\":\"addUser\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"clientMap\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"clientID\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"bool\",\"name\":\"flag\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_userAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_pwd\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_clientName\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_invoiceNumber\",\"type\":\"uint256\"}],\"name\":\"getInvoice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"invoiceNumber\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"netTerms\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"numberHours\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"amount\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_userAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_pwd\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_clientName\",\"type\":\"string\"}],\"name\":\"getInvoiceCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"count\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_userAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_pwd\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_clientName\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_invoiceNumber\",\"type\":\"uint256\"}],\"name\":\"getInvoiceDates\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"invoiceNumber\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"timesheetEndDate\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"invoiceSentDate\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"datePmtReceived\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_userAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_pwd\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_clientName\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_invoiceNumber\",\"type\":\"uint256\"}],\"name\":\"getInvoiceDueDates\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"invoiceNumber\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"due30DaysDate\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"due60DaysDate\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"due90DaysDate\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"due120DaysDate\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_userAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_pwd\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_clientName\",\"type\":\"string\"}],\"name\":\"getInvoiceNumbers\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_clientName\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_invoiceNumber\",\"type\":\"uint256\"}],\"name\":\"isNoDuplicateInvoice\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_userAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_pwd\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_clientName\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_invoiceNumber\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_invoicePmtDate\",\"type\":\"uint256\"}],\"name\":\"updateInvoice\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"userClientIDMap\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"usersMap\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"bytes32\",\"name\":\"ePwd\",\"type\":\"bytes32\"},{\"internalType\":\"bool\",\"name\":\"flag\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Denis M. Putnam\",\"details\":\"Use at your own risk.\",\"methods\":{\"addInvoice(address,string,string,uint256,uint256,uint256,string,uint256[])\":{\"author\":\"Denis M. Putnam\",\"details\":\"Add's an invoice to be tracked.\",\"params\":{\"_amount\":\"amount in dollars.\",\"_clientName\":\"name of the client\",\"_dates\":\"array of dates for timesheetEndDate, invoiceSentDate, due30DaysDate, due60DaysDate, due90DaysDate, due120DaysDate\",\"_invoiceNumber\":\"invoice number\",\"_netTerms\":\"net terms for 30, 60, 90, or 120 days.\",\"_numberHours\":\"number of hours for the timesheet.\",\"_pwd\":\"user password in plaintext\",\"_userAddress\":\"user address\"}},\"addUser(address,string,string)\":{\"author\":\"Denis M. Putnam\",\"details\":\"no other details.\",\"params\":{\"_address\":\"wallet account address for the user\",\"_name\":\"user name\",\"_pwd\":\"unencrypted password\"}},\"getInvoice(address,string,string,uint256)\":{\"author\":\"Denis M. Putnam\",\"details\":\"no other details\",\"params\":{\"_clientName\":\"name of the client\",\"_invoiceNumber\":\"invoice number being requested.\",\"_pwd\":\"plain text password\",\"_userAddress\":\"user address\"},\"returns\":{\"amount\":\"amount\",\"invoiceNumber\":\"invoiceNumber\",\"netTerms\":\"netTerms\",\"numberHours\":\"numberHours\"}},\"getInvoiceCount(address,string,string)\":{\"author\":\"Denis M. Putnam\",\"details\":\"no other details.\",\"params\":{\"_clientName\":\"name of the client\",\"_pwd\":\"plaintext user password\",\"_userAddress\":\"user address\"},\"returns\":{\"count\":\"of invoices associated with the given client\"}},\"getInvoiceDates(address,string,string,uint256)\":{\"author\":\"Denis M. Putnam\",\"details\":\"no other details\",\"params\":{\"_clientName\":\"name of the client\",\"_invoiceNumber\":\"invoice number being requested.\",\"_pwd\":\"plain text password\",\"_userAddress\":\"user address\"},\"returns\":{\"datePmtReceived\":\"datePmtReceived\",\"invoiceNumber\":\"invoiceNumber\",\"invoiceSentDate\":\"invoiceSentDate\",\"timesheetEndDate\":\"timesheetEndDate\"}},\"getInvoiceDueDates(address,string,string,uint256)\":{\"author\":\"Denis M. Putnam\",\"details\":\"no other details\",\"params\":{\"_clientName\":\"name of the client\",\"_invoiceNumber\":\"invoice number being requested.\",\"_pwd\":\"plain text password\",\"_userAddress\":\"user address\"},\"returns\":{\"due120DaysDate\":\"due120DaysDate\",\"due30DaysDate\":\"due30DaysDate\",\"due60DaysDate\":\"due60DaysDate\",\"due90DaysDate\":\"due90DaysDate\",\"invoiceNumber\":\"invoiceNumber\"}},\"getInvoiceNumbers(address,string,string)\":{\"author\":\"Denis M. Putnam\",\"details\":\"returned string is a comma separated string of invoice numbers.  The comma is also the end of the string if no other values appear.\",\"params\":{\"_clientName\":\"name of the client\",\"_pwd\":\"plain text user password\",\"_userAddress\":\"user address\"},\"returns\":{\"_0\":\"a comma seperated list of invoice numbers associated with the client.\"}},\"isNoDuplicateInvoice(string,uint256)\":{\"author\":\"Denis M. Putnam\",\"details\":\"no other details.\",\"params\":{\"_clientName\":\"name of the client.\",\"_invoiceNumber\":\"invoice number.\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner.     * NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"},\"updateInvoice(address,string,string,uint256,uint256)\":{\"author\":\"Denis M. Putnam\",\"details\":\"no other details\",\"params\":{\"_clientName\":\"name of the client\",\"_invoiceNumber\":\"invoice number being requested.\",\"_invoicePmtDate\":\"payment date\",\"_pwd\":\"plain text password\",\"_userAddress\":\"user address\"}}},\"title\":\"Invoice Tracking contract\"},\"userdoc\":{\"methods\":{\"addInvoice(address,string,string,uint256,uint256,uint256,string,uint256[])\":{\"notice\":\"Add an invoice to track\"},\"addUser(address,string,string)\":{\"notice\":\"Add a user\"},\"getInvoice(address,string,string,uint256)\":{\"notice\":\"Get an invoice\"},\"getInvoiceCount(address,string,string)\":{\"notice\":\"Get the count of invoices associated with the given client name\"},\"getInvoiceDates(address,string,string,uint256)\":{\"notice\":\"Get an invoice\"},\"getInvoiceDueDates(address,string,string,uint256)\":{\"notice\":\"Get an invoice\"},\"getInvoiceNumbers(address,string,string)\":{\"notice\":\"Get the list of invoice numbers as a string for the given client name.\"},\"isNoDuplicateInvoice(string,uint256)\":{\"notice\":\"Check for no duplicate invoice.\"},\"updateInvoice(address,string,string,uint256,uint256)\":{\"notice\":\"Update an invoice with the payment date\"}},\"notice\":\"This contract tracks invoices for payment\"}},\"settings\":{\"compilationTarget\":{\"/Users/denisputnam/git/invoice-tracker-dapp/contracts/InvoiceTracker.sol\":\"InvoiceTracker\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/denisputnam/git/invoice-tracker-dapp/contracts/Clients.sol\":{\"keccak256\":\"0x02c28307acdc484e1d2552c038808d2f5327877a64819fd1dbf1e70d04c097b6\",\"urls\":[\"bzz-raw://6c7a8339d7735b6b9419aac0b39b8a2400ef14e6377c8e01418e3f609d6af5ae\",\"dweb:/ipfs/QmX1Xmy9KQzC1AhVZWGof8fSnp1Lst8nxxQNJqKrNV2GwS\"]},\"/Users/denisputnam/git/invoice-tracker-dapp/contracts/InvoiceTracker.sol\":{\"keccak256\":\"0x48916e37f9eeb9b4fe7a0e0d56bc411f759e7b7c7cb6b07822413d45bb8b1c7b\",\"urls\":[\"bzz-raw://efa9f42f0aa99108b9e147b270356f58ed2f1d7bac49aba2e1be6b153ebcfbae\",\"dweb:/ipfs/QmZNCzPRToiLVvtK121UkYBYfguFTTrR3zJhQDm9q9AgBF\"]},\"/Users/denisputnam/git/invoice-tracker-dapp/contracts/Invoices.sol\":{\"keccak256\":\"0x354f244e1dd29189bc95a9d22ba7d74fd1461fab695096bd03706d00585f5a5c\",\"urls\":[\"bzz-raw://9c0170bc66c36154c626222a2ea4dd3a0f350ec72d1d03e0917ea5e0a8776386\",\"dweb:/ipfs/QmRy2xQaJyY64ZJ6wvczXyQsC61Kx7rdLk6bKTfYhVbbfX\"]},\"/Users/denisputnam/git/invoice-tracker-dapp/contracts/Password.sol\":{\"keccak256\":\"0x59b8206bcbbbbf49d15a8e2cf1a3b9aa66e0b9a3945f71336aa425554592f610\",\"urls\":[\"bzz-raw://ab84b102ca99439cbc0e111b6a842bd7a19c66c027a4189d5deaab53015a985d\",\"dweb:/ipfs/QmNPPB9xPcPx2kRNRDPjNa2kSQNnaTzrGLGbUFSHX5dRHJ\"]},\"/Users/denisputnam/git/invoice-tracker-dapp/contracts/Users.sol\":{\"keccak256\":\"0x3c09395fe1e0f5c9f379f3a1e25eef425dd31b4acdccdc21a752eb69caeda17f\",\"urls\":[\"bzz-raw://6665a099e0faf595c3b3a47320ca4d88e531a066eed39cda7c1be7d27cfac767\",\"dweb:/ipfs/QmSGLqrLjfdHo4zwnQtkHdmjmUTQbHrFaAiL1aX2MEEHPT\"]},\"@openzeppelin/contracts/GSN/Context.sol\":{\"keccak256\":\"0xdb26cbf4d028490f49831a7865c2fe1b28db44b535ca8d343785a3b768aae183\",\"urls\":[\"bzz-raw://840b14ce0315c47d49ba328f1f9fa7654ded1c9e1559e6c5e777a7b2dc28bf0a\",\"dweb:/ipfs/QmTLLabn4wcfGro9LEmUXUN2nwKqZSotXMvjDCLXEnLtZP\"]},\"@openzeppelin/contracts/access/Ownable.sol\":{\"keccak256\":\"0x4bd6402ca6b3419008c2b482aff54e66836e8cb4eba2680e42ac5884ae6424fc\",\"urls\":[\"bzz-raw://8f9f711fb8d0d92aeea1c327e3845d13ca1fa8f142e47f8723cd5b3106fb29a3\",\"dweb:/ipfs/QmVQUReDW9f4zGqhizwHnyU8EntMs95tbASdqkGncnikba\"]}},\"version\":1}",
@@ -1655,10 +1665,185 @@
       "links": {},
       "address": "0xD21D8865E5E40A0B7300Be1b6454EF83F87D5186",
       "transactionHash": "0xbcdc1a4e7f2ba1367761e336a3806a442d8caf5840be85ec52c1a78f98e2539f"
+    },
+    "1596573258274": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0x64b1990245accd502365916f65e5fcd03e71f750f7fcb75f88e699b5c067b8d9": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_clientName",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_invoiceNumber",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_netTerms",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_numberHours",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_amount",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_timesheetEndDate",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_invoiceSentDate",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_due30DaysDate",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_due60DaysDate",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_due90DaysDate",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_due120DaysDate",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_datePmtReceived",
+              "type": "uint256"
+            }
+          ],
+          "name": "addInvoiceEvent",
+          "type": "event"
+        },
+        "0x5ae6671f20b51a868ae522f9841ff46bb92cc988a8f2f502deba9d90b8cd8693": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address payable",
+              "name": "_address",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_name",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_pwd",
+              "type": "string"
+            }
+          ],
+          "name": "addUserEvent",
+          "type": "event"
+        },
+        "0xe21e12aba131cb57764fb4f32dfbde415652970f3ba0bd02edfa7c79608a7b03": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_clientName",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_invoiceNumber",
+              "type": "uint256"
+            }
+          ],
+          "name": "duplicateInvoiceEvent",
+          "type": "event"
+        },
+        "0x4aaf47da2b830ec7cb39ceac30735c6b5f91912852a2fcbedca8fb36ea750939": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_clientName",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_invoiceNumber",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_datePmtReceived",
+              "type": "uint256"
+            }
+          ],
+          "name": "updateInvoiceEvent",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x4e20D1452f42E51bc151686e2E8eC26E52178269",
+      "transactionHash": "0xe470069b12187299f7dd0b3d59ae03e99fe8dad3beb39138dc7d720490aa9b01"
     }
   },
   "schemaVersion": "3.2.3",
-  "updatedAt": "2020-08-04T20:38:18.592Z",
+  "updatedAt": "2020-08-06T16:11:46.394Z",
+  "networkType": "ethereum",
   "devdoc": {
     "author": "Denis M. Putnam",
     "details": "Use at your own risk.",

@@ -9,56 +9,7 @@ import "./Password.sol";
 /// @notice This contract handles invoices for payment
 /// @dev Use at your own risk.
 contract Invoices is Password {
-    // /// @dev User struct
-    // struct User {
-    //     string name;
-    //     bytes32 ePwd;
-    //     bool flag;
-    // }
-
-    // /// @dev Client struct
-    // struct Client {
-    //     address clientID;
-    //     string name;
-    //     bool flag;
-    // }
-
-    // /// @dev Invoice struct
-    // struct Invoice {
-    //     uint256 invoiceNumber;
-    //     uint256 netTerms; // 30, 60 90, 120 days net
-    //     uint256 numberHours;
-    //     string amount;
-    //     uint256 timesheetEndDate;
-    //     uint256 invoiceSentDate;
-    //     uint256 due30DaysDate;
-    //     uint256 due60DaysDate;
-    //     uint256 due90DaysDate;
-    //     uint256 due120DaysDate;
-    //     uint256 datePmtReceived;
-    // }
     Invoice newInvoice;
-
-    // /// @dev map the name of the client to invoices. this isa one to many mapping.
-    // mapping(string => Invoice[]) private clientNameInvoicesMap;
-    // /// @dev map the client name to the invoice numbers.
-    // mapping(string => uint256[]) private clientNameInvoiceNumMap;
-    // /// @dev map the name of the client to an invoice count
-    // mapping(string => uint256) private clientNameInvoiceCountMap;
-    // /// @dev map the user address to the client ID
-    // mapping(address => address) public userClientIDMap;
-    // /// @dev map the name of the client to the Client struct
-    // mapping(string => Client) public clientMap;
-
-    // /// @dev map the user address to the User struct
-    // mapping(address => User) public usersMap;
-    // /// @dev user count
-    // uint256 userCount = 0;
-    // /// @dev map the user index to the user address
-    // mapping(uint256 => address) userIndexMap;
-
-    // Users users;
-    // Clients clients;
 
     event duplicateInvoiceEvent(string _clientName, uint256 _invoiceNumber);
 
@@ -98,21 +49,6 @@ contract Invoices is Password {
         require(flag, "Duplicate invoice");
         _;
     }
-
-    // modifier userOnly(address _userAddress, string memory _clientName) {
-    //     address _clientID = clientMap[_clientName].clientID;
-    //     require(
-    //         userClientIDMap[_userAddress] == _clientID,
-    //         "User and client are not related"
-    //     );
-    //     _;
-    // }
-
-    // modifier isValidPassword(address _userAddress, string memory _pwd) {
-    //     bytes32 epwd = keccak256(abi.encodePacked(_pwd));
-    //     require(usersMap[_userAddress].ePwd == epwd, "Invalid password given");
-    //     _;
-    // }
 
     modifier isInvoiceNumber(uint256 _invoiceNumber) {
         require(_invoiceNumber > 0, "Invoice number must be greater than 0");

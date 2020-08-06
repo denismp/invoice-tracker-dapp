@@ -60,8 +60,6 @@ contract Password is Ownable {
     mapping(address => Client[]) public usersToClientsMap;
     /// @dev map the user address to the number of his Clients.
     mapping(address => int256) public userToNumClientsMap;
-    /// @dev map the name of the client to an invoice count
-    mapping(string => uint256) public clientNameInvoiceCountMap;
 
     modifier isValidPassword(address _userAddress, string memory _pwd) {
         bytes32 epwd = keccak256(abi.encodePacked(_pwd));

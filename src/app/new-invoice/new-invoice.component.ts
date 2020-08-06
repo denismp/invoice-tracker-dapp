@@ -36,25 +36,25 @@ export class NewInvoiceComponent {
     let timesheetsentdate: string = this.addressForm.get('timesheetsentdate').value;
     const userAddres: string = this.userService.userAddress;
 
-    if (name === null) {
+    if (name === undefined) {
       error = true;
     }
-    if (invoicenumber === null) {
+    if (invoicenumber === undefined) {
       error = true;
     }
-    if (netterms === null) {
+    if (netterms === undefined) {
       error = true;
     }
-    if (numberofhours === null) {
+    if (numberofhours === undefined) {
       error = true;
     }
-    if (amountofinvoice === null) {
+    if (amountofinvoice === undefined) {
       error = true;
     }
-    if (timesheetendingdate === null) {
+    if (timesheetendingdate === undefined) {
       error = true;
     }
-    if (timesheetsentdate === null) {
+    if (timesheetsentdate === undefined) {
       error = true;
     }
     if (error === true) {

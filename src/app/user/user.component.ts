@@ -29,15 +29,15 @@ export class UserComponent {
     let pwd: string = this.addressForm.get('pwd').value;
     let error: boolean = false;
     let rString: string = "";
-    if (name === "undefined") {
+    if (name === undefined) {
       error = true;
       rString = "Please enter a user name."
     }
-    if (address === "undefined" || address.length !== 42) {
+    if (address === undefined || address.length !== 42) {
       error = true;
       rString = "Please enter an wallet account address of length 42 starting with '0x'."
     }
-    if (pwd === "undefined" || pwd.length < 8) {
+    if (pwd === undefined || pwd.length < 8) {
       error = true;
       rString = "Please enter a password of 8 characters."
     }
@@ -51,16 +51,21 @@ export class UserComponent {
         readSuccess = false;
         this.userService.pwd = '';
       } else {
-        if (await this.isValidPassword(user.ePwd, pwd) === false) {
-          readSuccess = false;
-          error = true;
-          this.userService.pwd = '';
-          alert('You entered an invalid password')
+        if (user.name !== '') { // a name = '' means this is a new user.
+          if (await this.isValidPassword(user.ePwd, pwd) === false) {
+            readSuccess = false;
+            error = true;
+            this.userService.pwd = '';
+            alert('You entered an invalid password')
+          } else {
+            readSuccess = true;
+            this.userService.userAddress = address;
+            this.userService.pwd = pwd;
+            console.log('UserComponent.onSubmit().getUser(): ' + address + ' is an existing user.');
+          }
         } else {
-          readSuccess = true;
-          this.userService.userAddress = address;
-          this.userService.pwd = pwd;
-          console.log('UserComponent.onSubmit().getUser(): ' + address + ' is an existing user.');
+          readSuccess = false;
+          error = false;
         }
       }
       if (readSuccess === false && error === false) {

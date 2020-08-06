@@ -15,14 +15,14 @@ export class Web3PasswordService {
 
   private contractABI = this.PASSWORD_ARTIFACTS;
   public contract: any;
-  private isWeb3Ready: BehaviorSubject<boolean>;
-  public isWeb3Ready$: Observable<boolean>
+  private isWeb3PassordReady: BehaviorSubject<boolean>;
+  public isWeb3PassordReady$: Observable<boolean>
   public owner: string = '';
   public success: boolean = false;
 
   constructor() {
-    this.isWeb3Ready = new BehaviorSubject(false);
-    this.isWeb3Ready$ = this.isWeb3Ready.asObservable();
+    this.isWeb3PassordReady = new BehaviorSubject(false);
+    this.isWeb3PassordReady$ = this.isWeb3PassordReady.asObservable();
     this.initContract();
   }
 
@@ -44,7 +44,7 @@ export class Web3PasswordService {
           contractAddress
         );
         this.initEventSubscriptions();
-        this.isWeb3Ready.next(true);
+        this.isWeb3PassordReady.next(true);
       });
     } else {
       alert('No web3? You should consider trying MetaMask!');
@@ -56,7 +56,7 @@ export class Web3PasswordService {
         contractAddress
       );
       this.initEventSubscriptions();
-      this.isWeb3Ready.next(true);
+      this.isWeb3PassordReady.next(true);
     }
   }
 

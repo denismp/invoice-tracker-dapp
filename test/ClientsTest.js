@@ -99,7 +99,7 @@ contract("User", async accounts => {
     let clientName = "client1";
     let userPwd = "password";
     let result = await clients.addClient("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3", userPwd, clientID, clientName);
-    result = await clients.getClientByIndex("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3",0);
+    result = await clients.getClientByIndex("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3",userPwd,0);
     console.log('result=',result);
     //truffleAssert.prettyPrintEmittedEvents(result);
     //assert.equal(result.name, 'test');

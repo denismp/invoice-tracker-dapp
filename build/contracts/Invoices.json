@@ -19659,12 +19659,12 @@
         }
       },
       "links": {},
-      "address": "0x754Fea1353F401EAeD2FeC4CEbfC2C5837B5D471",
-      "transactionHash": "0xf2730b56f882cd2444ce335425efe4407c415f25b5daa718ee614b8be61c643c"
+      "address": "0xB10B5243e2AD4842a49E418d91AF3abcCE5c32f2",
+      "transactionHash": "0x002f0169c4819404cff137216c1d14b1c6b36992764a394b50a06699fe044421"
     }
   },
   "schemaVersion": "3.2.3",
-  "updatedAt": "2020-08-06T18:53:04.653Z",
+  "updatedAt": "2020-08-06T19:05:22.870Z",
   "networkType": "ethereum",
   "devdoc": {
     "author": "Denis M. Putnam",

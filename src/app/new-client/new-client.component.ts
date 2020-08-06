@@ -21,18 +21,22 @@ export class NewClientComponent {
   constructor(private fb: FormBuilder, private userService: UserService, private clientService: ClientService, private web3Service: Web3Service) { }
 
   onSubmit() {
-    const userAddress: string = this.userService.userAddress;
+    let userAddress: string = this.userService.userAddress;
     let address: string = this.addressForm.get('address').value;
     let name: string = this.addressForm.get('name').value;
     let error: boolean = false;
     let rString: string = "";
-    if (name === "undefined") {
+    if (name === undefined) {
       error = true;
       rString = "Please enter a client name."
     }
-    if (address === "undefined" || address.length !== 42) {
+    if (address === undefined || address.length !== 42) {
       error = true;
       rString = "Please enter an wallet account address of length 42 starting with '0x'."
+    }
+    if (userAddress === undefined) {
+      error = true;
+      rString = "Please login.";
     }
 
     if (error === true) {

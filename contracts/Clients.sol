@@ -159,12 +159,12 @@ contract Clients is Users {
     /// @return clientID
     function getClientByIndex(
         address _userAddress,
-        //string memory _pwd,
+        string memory _pwd,
         uint256 _index
     )
         public
         view
-        onlyOwner()
+        isValidPassword(_userAddress, _pwd)
         returns (
             string memory name,
             address clientID

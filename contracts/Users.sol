@@ -111,4 +111,17 @@ contract Users is Ownable {
     {
         return (userIndexMap[_index]);
     }
+
+    /// @author Denis M. Putnam
+    /// @notice calculate the encrypted password from the given one
+    /// @param _pwd plain text password
+    /// @return ePwd
+    /// @dev no other details.
+    function calcPassword(string memory _pwd)
+        public
+        pure
+        returns (bytes32 ePwd)
+    {
+        return keccak256(abi.encodePacked(_pwd));
+    }
 }

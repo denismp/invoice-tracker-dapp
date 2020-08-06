@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Web3Service } from './web3.service';
 import { User } from '../user/user.interface';
 import { Web3ClientsService } from './web3-clients.service';
 

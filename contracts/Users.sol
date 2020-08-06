@@ -1,44 +1,45 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.6.6;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+//import "@openzeppelin/contracts/access/Ownable.sol";
+import "./Password.sol";
 
-contract Users is Ownable {
-    /// @dev User struct
-    struct User {
-        string name;
-        bytes32 ePwd;
-        bool flag;
-    }
+contract Users is Password {
+    // /// @dev User struct
+    // struct User {
+    //     string name;
+    //     bytes32 ePwd;
+    //     bool flag;
+    // }
 
-    /// @dev map the user address to the User struct
-    mapping(address => User) public usersMap;
-    /// @dev user count
-    uint256 userCount = 0;
-    /// @dev map the user index to the user address
-    mapping(uint256 => address) userIndexMap;
+    // /// @dev map the user address to the User struct
+    // mapping(address => User) public usersMap;
+    // /// @dev user count
+    // uint256 userCount = 0;
+    // /// @dev map the user index to the user address
+    // mapping(uint256 => address) userIndexMap;
 
     event addUserEvent(address payable _address, string _name, string _pwd);
 
-    modifier isValidPassword(address _userAddress, string memory _pwd) {
-        bytes32 epwd = keccak256(abi.encodePacked(_pwd));
-        require(usersMap[_userAddress].ePwd == epwd, "Invalid password given");
-        _;
-    }
+    // modifier isValidPassword(address _userAddress, string memory _pwd) {
+    //     bytes32 epwd = keccak256(abi.encodePacked(_pwd));
+    //     require(usersMap[_userAddress].ePwd == epwd, "Invalid password given");
+    //     _;
+    // }
 
-    modifier noDupUser(address _address) {
-        require(usersMap[_address].flag == false, "User already exists");
-        _;
-    }
+    // modifier noDupUser(address _address) {
+    //     require(usersMap[_address].flag == false, "User already exists");
+    //     _;
+    // }
 
-    function isPasswordValid(address _userAddress, string memory _pwd)
-        public
-        view
-        returns (bool)
-    {
-        bytes32 epwd = keccak256(abi.encodePacked(_pwd));
-        return (usersMap[_userAddress].ePwd == epwd);
-    }
+    // function isPasswordValid(address _userAddress, string memory _pwd)
+    //     public
+    //     view
+    //     returns (bool)
+    // {
+    //     bytes32 epwd = keccak256(abi.encodePacked(_pwd));
+    //     return (usersMap[_userAddress].ePwd == epwd);
+    // }
 
     /// @author Denis M. Putnam
     /// @notice Add a user
@@ -112,16 +113,16 @@ contract Users is Ownable {
         return (userIndexMap[_index]);
     }
 
-    /// @author Denis M. Putnam
-    /// @notice calculate the encrypted password from the given one
-    /// @param _pwd plain text password
-    /// @return ePwd
-    /// @dev no other details.
-    function calcPassword(string memory _pwd)
-        public
-        pure
-        returns (bytes32 ePwd)
-    {
-        return keccak256(abi.encodePacked(_pwd));
-    }
+    // /// @author Denis M. Putnam
+    // /// @notice calculate the encrypted password from the given one
+    // /// @param _pwd plain text password
+    // /// @return ePwd
+    // /// @dev no other details.
+    // function calcPassword(string memory _pwd)
+    //     public
+    //     pure
+    //     returns (bytes32 ePwd)
+    // {
+    //     return keccak256(abi.encodePacked(_pwd));
+    // }
 }

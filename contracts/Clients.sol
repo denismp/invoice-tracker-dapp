@@ -4,72 +4,72 @@ pragma solidity ^0.6.6;
 import "./Users.sol";
 
 contract Clients is Users {
-    /// @dev Client struct
-    struct Client {
-        address clientID;
-        string name;
-        bool flag;
-    }
+    // /// @dev Client struct
+    // struct Client {
+    //     address clientID;
+    //     string name;
+    //     bool flag;
+    // }
 
     /**
      * Clients has a Invoices
      */
-    /// @dev map the name of the client to the Client struct
-    mapping(string => Client) public clientMap;
-    /// @dev map the name of the client to the client address
-    mapping(string => address) public clientNameAddressMap;
-    /// @dev map the user address to the client ID
-    mapping(address => address) public userClientIDMap;
-    /// @dev map the user name to his Clients.
-    mapping(address => Client[]) public usersToClientsMap;
-    /// @dev map the user address to the number of his Clients.
-    mapping(address => int256) public userToNumClientsMap;
-    /// @dev map the client name to the invoice numbers.
-    mapping(string => uint256[]) public clientNameInvoiceNumMap;
+    // /// @dev map the name of the client to the Client struct
+    // mapping(string => Client) public clientMap;
+    // /// @dev map the name of the client to the client address
+    // mapping(string => address) public clientNameAddressMap;
+    // /// @dev map the user address to the client ID
+    // mapping(address => address) public userClientIDMap;
+    // /// @dev map the user name to his Clients.
+    // mapping(address => Client[]) public usersToClientsMap;
+    // /// @dev map the user address to the number of his Clients.
+    // mapping(address => int256) public userToNumClientsMap;
+    // /// @dev map the client name to the invoice numbers.
+    // mapping(string => uint256[]) public clientNameInvoiceNumMap;
 
-    /// @dev map the clientID address to his invoices
+    // /// @dev map the clientID address to his invoices
     //mapping(address => Invoice.Invoice[]) public clientIDInvoiceMap;
 
     event addClientEvent(address _userAddress, address _clientID, string _name);
-    event duplicateClientEvent(address _userAddress, string _clientID);
+    // event duplicateClientEvent(address _userAddress, string _clientID);
 
-    /// @author Denis M. Putnam
-    /// @notice Check for no client.
-    /// @param _clientName name of the client.
-    /// @param _clientID clients wallet address.
-    /// @dev no other details.
-    function isNoClient(
-        address _userAddress,
-        string memory _clientName,
-        address _clientID
-    ) public payable returns (bool) {
-        if (userClientIDMap[_userAddress] == _clientID) {
-            emit duplicateClientEvent(_userAddress, _clientName);
-            return false;
-        }
-        return true;
-    }
+    // /// @author Denis M. Putnam
+    // /// @notice Check for no client.
+    // /// @param _clientName name of the client.
+    // /// @param _clientID clients wallet address.
+    // /// @dev no other details.
+    // function isNoClient(
+    //     address _userAddress,
+    //     string memory _clientName,
+    //     address _clientID
+    // ) public payable returns (bool) {
+    //     if (userClientIDMap[_userAddress] == _clientID) {
+    //         emit duplicateClientEvent(_userAddress, _clientName);
+    //         return false;
+    //     }
+    //     return true;
+    // }
 
-    modifier noDupClient(
-        address _userAddress,
-        address _clientID,
-        string memory _clientName
-    ) {
-        require(
-            isNoClient(_userAddress, _clientName, _clientID),
-            "Client already exists for the given user"
-        );
-        _;
-    }
+    // modifier noDupClient(
+    //     address _userAddress,
+    //     address _clientID,
+    //     string memory _clientName
+    // ) {
+    //     require(
+    //         isNoClient(_userAddress, _clientName, _clientID),
+    //         "Client already exists for the given user"
+    //     );
+    //     _;
+    // }
 
-    modifier userOnly(address _userAddress, string memory _clientName) {
-        address _clientID = clientMap[_clientName].clientID;
-        require(
-            userClientIDMap[_userAddress] == _clientID,
-            "User and client are not related"
-        );
-        _;
-    }
+    // modifier userOnly(address _userAddress, string memory _clientName) {
+    //     address _clientID = clientMap[_clientName].clientID;
+    //     require(
+    //         userClientIDMap[_userAddress] == _clientID,
+    //         "User and client are not related"
+    //     );
+    //     _;
+    // }
 
     function getClientNameFromMap(string memory name)
         public

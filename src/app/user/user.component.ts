@@ -66,6 +66,11 @@ export class UserComponent {
         } else {
           readSuccess = false;
           error = false;
+          if (confirm('You are about to create a user account.  Is this what you want to do?')) {
+             alert("Write down your password as it is not recoverable!");
+          } else {
+            readSuccess = true;
+          }
         }
       }
       if (readSuccess === false && error === false) {

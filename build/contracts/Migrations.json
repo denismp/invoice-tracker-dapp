@@ -937,12 +937,12 @@
     "1596573258274": {
       "events": {},
       "links": {},
-      "address": "0xD74A650a00C34715b790Bb255BeB982b407aC450",
-      "transactionHash": "0x3c3361c9c47faedd675fc5438c6faa0ac61c9c54c7ac084c963643c526e48930"
+      "address": "0x922A72Ca1EEBd1d7953f80900c805a203fd1015a",
+      "transactionHash": "0x532c3e7d5c130b1eecacb192471675e897bae6f2627539dd773c4addf01db58a"
     }
   },
   "schemaVersion": "3.2.3",
-  "updatedAt": "2020-08-06T19:05:23.146Z",
+  "updatedAt": "2020-08-06T20:56:24.072Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

@@ -114,6 +114,14 @@ ganache-cli
 ganache-cli -l 8000000
 ganache-cli -l 0x1fffffffffffff
 
+## Run Metamask with ganache-cli
+In order to debug and test the app locally with metamask:
+1. Run ganache-cli -l 0x1fffffffffffff2. 
+2. Open Metamask plugin in chrome.
+3. Set up a Custom RPC using http://127.0.0.1:8545
+4. Use the Mnemonic from the output of ganache-cli to import into Metamask.
+5. Add accounts.  As the add you should see 100eth in each account.
+
 
 ## Generate documentation
 1. run "solc --userdoc --devdoc contracts/InvoiceTracker.sol" as an example.

@@ -36,7 +36,7 @@ export class Web3PasswordService {
     if (typeof window.ethereum !== 'undefined') {
       // Use Mist/MetaMask's provider
       window.ethereum.enable().then(async () => {
-        let contractAddress = "0xF9D46E4fa970461eb7db6163B563b4a92Af68A20"; //ropsten TODO: need to change for metamask when ready.
+        let contractAddress = "0xc407af10D4962289A781C670421b46657b3166FD"; //ropsten TODO: need to change for metamask when ready.
         alert('Connecting to MetaMask');
         this.web3 = new Web3(window.ethereum);
         this.contract = new this.web3.eth.Contract(
@@ -49,7 +49,7 @@ export class Web3PasswordService {
     } else {
       alert('No web3? You should consider trying MetaMask!');
 
-      let contractAddress = "0xDB1fb716a3866F1c3Cf2CeE2fbD9dC680DBCb9fC";
+      let contractAddress = "0xc407af10D4962289A781C670421b46657b3166FD";
       this.web3 = new Web3(new Web3.providers.WebsocketProvider('ws://localhost:8545')); // this allows for the allEvents to work.
       this.contract = new this.web3.eth.Contract(
         this.contractABI.abi,

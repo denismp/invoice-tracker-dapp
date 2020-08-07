@@ -6753,10 +6753,105 @@
       "links": {},
       "address": "0x50efe39001C72586be0BDA0D8BbB6cde42bd78d6",
       "transactionHash": "0x6599cc630ebf46de2f264176bb81adc7b3d15377bac85e08be638e0b7703fa24"
+    },
+    "1596810373021": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0x94b9610dbc7bb1121768f2201c6a4b486d3979ecc0c3e84d475a3ace0381903c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_userAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_clientID",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_name",
+              "type": "string"
+            }
+          ],
+          "name": "addClientEvent",
+          "type": "event"
+        },
+        "0x5ae6671f20b51a868ae522f9841ff46bb92cc988a8f2f502deba9d90b8cd8693": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address payable",
+              "name": "_address",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_name",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_pwd",
+              "type": "string"
+            }
+          ],
+          "name": "addUserEvent",
+          "type": "event"
+        },
+        "0x3266e9973cd88d0b427a9f781262c2810cb85378bdc9e4965a3c7aa22977708e": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_userAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_clientID",
+              "type": "string"
+            }
+          ],
+          "name": "duplicateClientEvent",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x074931b2171ECe4899B6AA4686E063C78067B1D0",
+      "transactionHash": "0xe01eb95ae8e7164fbe67002cd270a17b4fe3906f27c998da85ad4f08ff3dec9e"
     }
   },
   "schemaVersion": "3.2.3",
-  "updatedAt": "2020-08-06T20:56:23.642Z",
+  "updatedAt": "2020-08-07T14:30:50.318Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {

@@ -19641,10 +19641,203 @@
       "links": {},
       "address": "0x63EA4c9D7096Bb0aFE5C50D507730218D4ccA61E",
       "transactionHash": "0xbd9590d182bf80a6d71c71ddbd43701b4ebb91af8b5311414d3783f0945bc0bc"
+    },
+    "1596810373021": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0x64b1990245accd502365916f65e5fcd03e71f750f7fcb75f88e699b5c067b8d9": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_clientName",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_invoiceNumber",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_netTerms",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_numberHours",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_amount",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_timesheetEndDate",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_invoiceSentDate",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_due30DaysDate",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_due60DaysDate",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_due90DaysDate",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_due120DaysDate",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_datePmtReceived",
+              "type": "uint256"
+            }
+          ],
+          "name": "addInvoiceEvent",
+          "type": "event"
+        },
+        "0x5ae6671f20b51a868ae522f9841ff46bb92cc988a8f2f502deba9d90b8cd8693": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address payable",
+              "name": "_address",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_name",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_pwd",
+              "type": "string"
+            }
+          ],
+          "name": "addUserEvent",
+          "type": "event"
+        },
+        "0x3266e9973cd88d0b427a9f781262c2810cb85378bdc9e4965a3c7aa22977708e": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_userAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_clientID",
+              "type": "string"
+            }
+          ],
+          "name": "duplicateClientEvent",
+          "type": "event"
+        },
+        "0xe21e12aba131cb57764fb4f32dfbde415652970f3ba0bd02edfa7c79608a7b03": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_clientName",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_invoiceNumber",
+              "type": "uint256"
+            }
+          ],
+          "name": "duplicateInvoiceEvent",
+          "type": "event"
+        },
+        "0x4aaf47da2b830ec7cb39ceac30735c6b5f91912852a2fcbedca8fb36ea750939": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_clientName",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_invoiceNumber",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_datePmtReceived",
+              "type": "uint256"
+            }
+          ],
+          "name": "updateInvoiceEvent",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xc814103F21Cc1B1d9F6D32eeb59e30Cb5073FA1F",
+      "transactionHash": "0x056783f523be344f240a201088776fa15e61cd11c8307940aab61198a674d1ac"
     }
   },
   "schemaVersion": "3.2.3",
-  "updatedAt": "2020-08-06T20:56:23.880Z",
+  "updatedAt": "2020-08-07T14:30:50.607Z",
   "networkType": "ethereum",
   "devdoc": {
     "author": "Denis M. Putnam",

@@ -30,6 +30,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { QueryRequestFormComponent } from './query-request-form/query-request-form.component';
 import { UserComponent } from './user/user.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { UserComponent } from './user/user.component';
     ClientListComponent,
     QueryRequestFormComponent,
     QueryRequestFormComponent,
-    UserComponent
+    UserComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,

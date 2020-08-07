@@ -18,7 +18,8 @@ export class UserService {
       let owner: string = this.web3ClientsService.owner;
       this.success = true;
       this.userAddress = userAddress;
-      return await this.web3ClientsService.contract.methods.addUser(userAddress, userName, password).send({ from: owner, gas: 3000000 });
+      //return await this.web3ClientsService.contract.methods.addUser(userAddress, userName, password).send({ from: owner, gas: 3000000 });
+      return await this.web3ClientsService.contract.methods.addUser(userAddress, userName, password).send({ from: userAddress });
     } catch (err) {
       this.success = false;
       console.log('UserService.createUser(): failed:', err);
@@ -32,7 +33,8 @@ export class UserService {
       //let owner: string = await this.web3ClientsService.contract.methods.getCurrentOwner().call();
       let owner: string = this.web3ClientsService.owner;
       this.success = true;
-      return await this.web3ClientsService.contract.methods.getUserName(userAddress).call({ from: userAddress, gas: 3000000 });
+      //return await this.web3ClientsService.contract.methods.getUserName(userAddress).call({ from: userAddress, gas: 3000000 });
+      return await this.web3ClientsService.contract.methods.getUserName(userAddress).call({ from: userAddress });
     } catch (err) {
       this.success = false;
       console.log('UserService.getUserName(): failed:', err);
@@ -46,7 +48,9 @@ export class UserService {
       //let owner: string = await this.web3ClientsService.contract.methods.getCurrentOwner().call();
       let owner: string = this.web3ClientsService.owner;
       this.success = true;
-      return await this.web3ClientsService.contract.methods.getUser(userAddress).call({ from: owner, gas: 3000000 });
+      //return await this.web3ClientsService.contract.methods.getUser(userAddress).call({ from: owner, gas: 3000000 });
+      return await this.web3ClientsService.contract.methods.getUser(userAddress).call({ from: userAddress });
+      //return await this.web3ClientsService.contract.getUser(userAddress).call({ from: owner, gas: 3000000 });
     } catch (err) {
       this.success = false;
       console.log('UserService.getUser(): failed:', err);
@@ -59,7 +63,8 @@ export class UserService {
     try {
       this.success = true;
       let owner: string = this.web3ClientsService.owner;
-      return await this.web3ClientsService.contract.methods.calcPassword(password).call({ from: owner, gas: 3000000 });
+      //return await this.web3ClientsService.contract.methods.calcPassword(password).call({ from: owner, gas: 3000000 });
+      return await this.web3ClientsService.contract.methods.calcPassword(password).call({ from: this.userAddress });
     } catch (err) {
       this.success = false;
       console.log('UserService.calcPassword(): failed:', err);

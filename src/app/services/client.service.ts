@@ -21,7 +21,8 @@ export class ClientService {
       let owner: string = this.web3ClientsService.owner;
       this.success = true;
       const pwd = this.userService.pwd;
-      return await this.web3ClientsService.contract.methods.addClient(userAddress, pwd, clientID, clientName).send({ from: owner, gas: 3000000 });
+      return await this.web3ClientsService.contract.methods.addClient(userAddress, pwd, clientID, clientName).send({from: userAddress});
+      //return await this.web3ClientsService.contract.methods.addClient(userAddress, pwd, clientID, clientName).send();
     } catch (err) {
       this.success = false;
       console.log('ClientServiceService.createClient(): failed:', err);
@@ -35,7 +36,8 @@ export class ClientService {
       //let owner: string = await this.web3ClientsService.contract.methods.getCurrentOwner().call();
       let owner: string = this.web3ClientsService.owner;
       // The userAddress, most likely should be the owner, but I don't think it matters on a call().
-      return await this.web3ClientsService.contract.methods.getClientCount(userAddress).call({ from: userAddress, gas: 3000000 });
+      //return await this.web3ClientsService.contract.methods.getClientCount(userAddress).call({ from: userAddress, gas: 3000000 });
+      return await this.web3ClientsService.contract.methods.getClientCount(userAddress).call({from: userAddress});
     } catch (err) {
       console.log('ClientServiceService.getClientCount(): failed:', err);
       alert('ClientServiceService.getClientCount(): failed:' + err);
@@ -48,7 +50,8 @@ export class ClientService {
       let owner: string = this.web3ClientsService.owner;
       const pwd = this.userService.pwd;
       // The userAddress, most likely should be the owner, but I don't think it matters on a call().
-      return await this.web3ClientsService.contract.methods.getClientByIndex(userAddress, pwd, index).call({ from: userAddress, gas: 3000000 });
+      //return await this.web3ClientsService.contract.methods.getClientByIndex(userAddress, pwd, index).call({ from: userAddress, gas: 3000000 });
+      return await this.web3ClientsService.contract.methods.getClientByIndex(userAddress, pwd, index).call({from: userAddress});
     } catch (err) {
       console.log('ClientServiceService.getClientByIndex(): failed:', err);
       alert('ClientServiceService.getClientIndex(): failed:' + err);

@@ -21,7 +21,7 @@ export class ClientService {
        let owner: string = this.web3ClientsService.owner;
        this.success = true;
        const pwd = this.userService.pwd;
-       return await this.web3ClientsService.contract.methods.addClient(userAddress, pwd, clientID, clientName).send({ from: userAddress, gas: 3000000 });
+       return await this.web3ClientsService.contract.methods.addClient(userAddress, pwd, clientID, clientName).send({ from: owner, gas: 3000000 });
      } catch (err) {
        this.success = false;
        console.log('ClientServiceService.createClient(): failed:', err);

@@ -34,6 +34,7 @@ export class ClientService {
      try {
        //let owner: string = await this.web3ClientsService.contract.methods.getCurrentOwner().call();
        let owner: string = this.web3ClientsService.owner;
+       // The userAddress, most likely should be the owner, but I don't think it matters on a call().
        return await this.web3ClientsService.contract.methods.getClientCount(userAddress).call({ from: userAddress, gas: 3000000 });
      } catch (err) {
        console.log('ClientServiceService.getClientCount(): failed:', err);
@@ -46,6 +47,7 @@ export class ClientService {
        //let owner: string = await this.web3ClientsService.contract.methods.getCurrentOwner().call();
        let owner: string = this.web3ClientsService.owner;
        const pwd = this.userService.pwd;
+       // The userAddress, most likely should be the owner, but I don't think it matters on a call().
        return await this.web3ClientsService.contract.methods.getClientByIndex(userAddress, pwd, index).call({ from: userAddress, gas: 3000000 });
      } catch (err) {
        console.log('ClientServiceService.getClientByIndex(): failed:', err);

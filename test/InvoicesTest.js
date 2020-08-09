@@ -98,13 +98,6 @@ contract("Invoices", async accounts => {
     const now = Math.floor((new Date()).getTime() / 1000);
     console.log("ADD INVOICE");
     console.log("Adding invoice number=" + _invoiceNumber);
-    // const _dates = [];
-    // _dates[0] = now;
-    // _dates[1] = now;
-    // _dates[2] = now;
-    // _dates[3] = now;
-    // _dates[4] = now;
-    // _dates[5] = now;
     const invoiceHash = CryptoJS.SHA256(
       "client1" +
       _invoiceNumber.toString() +
@@ -124,29 +117,7 @@ contract("Invoices", async accounts => {
       "client1",
       invoiceHash.toString()
     );
-    // const result = await invoices.addInvoice(
-    //   "0x9769862B4e59e0F23F495C3c21F4c9a6def307F3",
-    //   "password",
-    //   "client1",
-    //   _invoiceNumber,
-    //   30,
-    //   80,
-    //   "2000.50",
-    //   _dates
-    // );
     truffleAssert.prettyPrintEmittedEvents(result);
-    // truffleAssert.eventEmitted(result, 'addInvoiceEvent', (event) => {
-    //   console.log("event._invoiceNumber=" + event._invoiceNumber);
-    //   // console.log("       clientID=" + clientID.toUpperCase());
-    //   const myequal = parseInt(event._invoiceNumber) === _invoiceNumber;
-    //   console.log("DEBUG:" + myequal);
-    //   return event._clientName === "client1" &&
-    //     parseInt(event._invoiceNumber) === _invoiceNumber &&
-    //     parseInt(event._netTerms) === 30 &&
-    //     parseInt(event._numberHours) === 80 &&
-    //     event._amount === "2000.50"
-    //     ;
-    // });
     console.log('DEBUG Just before getInvoiceCount().')
     const count = await invoices.getInvoiceCount("0x9769862B4e59e0F23F495C3c21F4c9a6def307F3", "password", "client1");
     console.log("Invoice count=" + count);

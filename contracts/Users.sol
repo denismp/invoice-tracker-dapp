@@ -2,9 +2,9 @@
 pragma solidity ^0.6.6;
 
 //import "@openzeppelin/contracts/access/Ownable.sol";
-import "./Password.sol";
+import "./InvoiceData.sol";
 
-contract Users is Password {
+contract Users is InvoiceData {
 
     event addUserEvent(address payable _address, string _name, string _pwd);
 

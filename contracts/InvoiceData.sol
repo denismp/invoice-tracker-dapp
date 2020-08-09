@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @author Denis M. Putnam
 /// @notice This contract calculate the encrypted password.
 /// @dev Use at your own risk.
-contract Password is Ownable {
+contract InvoiceData is Ownable {
     /// @dev User struct
     struct User {
         string name;
@@ -23,29 +23,14 @@ contract Password is Ownable {
         bool flag;
     }
 
-    /// @dev Invoice struct
-    struct Invoice {
-        uint256 invoiceNumber;
-        uint256 netTerms; // 30, 60 90, 120 days net
-        uint256 numberHours;
-        string amount;
-        uint256 timesheetEndDate;
-        uint256 invoiceSentDate;
-        uint256 due30DaysDate;
-        uint256 due60DaysDate;
-        uint256 due90DaysDate;
-        uint256 due120DaysDate;
-        uint256 datePmtReceived;
-    }
-
     /// @dev map the user address to the User struct
     mapping(address => User) public usersMap;
     /// @dev user count
     uint256 userCount = 0;
     /// @dev map the user index to the user address
     mapping(uint256 => address) userIndexMap;
-    /// @dev map the name of the client to invoices. this isa one to many mapping.
-    mapping(string => Invoice[]) public clientNameInvoicesMap;
+    /// @dev map the name of the client to invoices. this isa one to many mapping. Each invoice is hash value of the the invoice data.
+    mapping(string => string[]) public clientNameInvoicesMap;
     /// @dev map the client name to the invoice numbers.
     mapping(string => uint256[]) public clientNameInvoiceNumMap;
     /// @dev map the name of the client to an invoice count

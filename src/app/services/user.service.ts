@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../user/user.interface';
 import { Web3ClientsService } from './web3-clients.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class UserService {
   userAddress: string;
   pwd: string = '';
 
-  constructor(private web3ClientsService: Web3ClientsService) { }
+  constructor(private http: HttpClient, private web3ClientsService: Web3ClientsService) { }
 
   public async createUser(userAddress: string, userName: string, password: string): Promise<any> {
     console.log("UserService.createUser(): DEBUG");

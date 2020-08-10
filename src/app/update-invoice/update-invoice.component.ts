@@ -45,27 +45,27 @@ export class UpdateInvoiceComponent {
       console.log('UpdateInvoiceComponent.onSubmit(): paymentreceiveddate=', paymentreceiveddate);
       console.log('UpdateInvoiceComponent.onSubmit(): conversions of paymentreceiveddate in millseconds=', Date.parse(paymentreceiveddate));
       console.log('UpdateInvoiceComponent.onSubmit(): conversions of paymentreceiveddate in seconds(Unix Epoch)=', Math.round(Date.parse(paymentreceiveddate)/1000));
-      this.invoiceService.updateInvoice(
-        userAddress,
-        name,
-        parseInt(invoicenumber),
-        Math.round(Date.parse(paymentreceiveddate)/1000)
-        )
-        .then(res => {
-          this.submitting = false;
-          console.log('UpdateInvoiceComponent.onSubmit(): res=', res);
-          if (this.invoiceService.success === true) {
-            let myData: string = "transactionHash=" + res.transactionHash + " blockHash=" + res.blockHash + " blockNumber=" + res.blockNumber;
-            alert('Successfully added ' + name + " " + myData);
-          } else {
-            alert('Add of ' + name + ' failed');
-          }
-        })
-        .catch(err => {
-          this.submitting = false;
-          console.log('UpdateInvoiceComponent.onSubmit(): err: ', err);
-          alert('Submit failed.');
-        });
+      // this.invoiceService.updateInvoice(
+      //   userAddress,
+      //   name,
+      //   parseInt(invoicenumber),
+      //   Math.round(Date.parse(paymentreceiveddate)/1000)
+      //   )
+      //   .then(res => {
+      //     this.submitting = false;
+      //     console.log('UpdateInvoiceComponent.onSubmit(): res=', res);
+      //     if (this.invoiceService.success === true) {
+      //       let myData: string = "transactionHash=" + res.transactionHash + " blockHash=" + res.blockHash + " blockNumber=" + res.blockNumber;
+      //       alert('Successfully added ' + name + " " + myData);
+      //     } else {
+      //       alert('Add of ' + name + ' failed');
+      //     }
+      //   })
+      //   .catch(err => {
+      //     this.submitting = false;
+      //     console.log('UpdateInvoiceComponent.onSubmit(): err: ', err);
+      //     alert('Submit failed.');
+      //   });
       }
   }
 

@@ -50,7 +50,7 @@ export class Web3ClientsService {
       //   this.isWeb3ClientsReady.next(true);
       // });
       await window.ethereum.enable();
-      let contractAddress = "0x074931b2171ECe4899B6AA4686E063C78067B1D0"; //ropsten
+      let contractAddress = "0xe60f09ce6A215ccE27F1328BEb0bEe22cD5e75A6"; //ropsten
       alert('Connecting to MetaMask');
       this.web3 = new Web3(window.ethereum);
       this.contract = new this.web3.eth.Contract(
@@ -63,7 +63,7 @@ export class Web3ClientsService {
       // This is the local host case.
       alert('No web3? You should consider trying MetaMask!');
 
-      let contractAddress = "0x074931b2171ECe4899B6AA4686E063C78067B1D0";
+      let contractAddress = "0xe60f09ce6A215ccE27F1328BEb0bEe22cD5e75A6";
       //let contractAddress = "0x4fa7c2933A553b9346a44ebd9DF6962747a606d4"; //ropsten
       // Hack to provide backwards compatibility for Truffle, which uses web3js 0.20.x
       //Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
